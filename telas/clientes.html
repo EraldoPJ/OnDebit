@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/telasEstilo/style.css" />
-    <link rel="stylesheet" href="/telasEstilo/styleClientes.css">
+    <link rel="stylesheet" href="/telasEstilo/styleClientes.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,14 +30,14 @@
           id="nome"
           name="nome"
           disabled
-          placeholder="Nome e Completo"
+          placeholder="Nome Completo"
           maxlength="100"
         />
       </div>
       <div>
         <label for="telefone">Telefone:</label><br />
         <input
-          type="number"
+          type="text"
           id="telefone"
           name="telefone"
           disabled
@@ -60,11 +60,13 @@
       </div>
     </form>
   </body>
-  <footer id="rodapeCliente">
+  <footer id="rodapeClientes">
     <div id="botoesCliente">
-      <button type="button" id="btnVoltar"><a href="/index.html">Voltar</a></button>
+      <button type="button" id="btnVoltar">
+        <a href="/index.html">Voltar</a>
+      </button>
       <button type="button" id="btnNovo">Novo</button>
-      <button type="button" id="btnEditar" disabled>Editar</button>
+      <button type="button" id="btnEditar">Editar</button>
       <button type="button" id="btnExcluir" disabled>Excluir</button>
       <button type="button" id="btnConfirmar" disabled>Confirmar</button>
       <button type="button" id="btnCancelar" disabled>Cancelar</button>
@@ -72,4 +74,5 @@
   </footer>
 
   <script type="module" src="/scripts/ionicons.js"></script>
+  <script src="/scripts/clientes.js"></script>
 </html>

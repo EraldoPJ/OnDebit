@@ -2,7 +2,30 @@
   padding: 10px 0px 10px 50px;
 }
 
-#rodapeCliente {
+/*Feito para dar um estilo um pouco diferente para os inputs*/
+#id {
+  border-radius: 5px;
+  width: 70px;
+}
+#nome {
+  border-radius: 5px;
+  width: 300px;
+}
+#telefone {
+  border-radius: 5px;
+  width: 120px;
+}
+#email {
+  border-radius: 5px;
+  width: 300px;
+}
+#observacao {
+  border-radius: 5px;
+  width: 300px;
+}
+
+/*Feito para alterar propriedades e espacamentos*/
+#rodapeClientes {
   display: flex;
   justify-content: flex-start;
 
@@ -17,12 +40,16 @@
 
   background: linear-gradient(100deg, gray, black);
 }
+#btnVoltar a {
+  color: white;
+}
 
 #btnNovo {
   border: 2px solid grey;
   border-radius: 10px;
   padding: 5px;
 
+  color: white;
   background: linear-gradient(100deg, gray, black);
 }
 #btnEditar {
@@ -30,6 +57,7 @@
   border-radius: 10px;
   padding: 5px;
 
+  color: white;
   background: linear-gradient(100deg, gray, black);
 }
 #btnExcluir {
@@ -37,6 +65,7 @@
   border-radius: 10px;
   padding: 5px;
 
+  color: white;
   background: linear-gradient(100deg, gray, black);
 }
 #btnConfirmar {
@@ -44,6 +73,7 @@
   border-radius: 10px;
   padding: 5px;
 
+  color: white;
   background: linear-gradient(100deg, gray, black);
 }
 #btnCancelar {
@@ -51,24 +81,27 @@
   border-radius: 10px;
   padding: 5px;
 
+  color: white;
   background: linear-gradient(100deg, gray, black);
 }
 
-#btnVoltar:hover {
-  opacity: 0.7;
-}
-#btnNovo:hover {
-  opacity: 0.7;
-}
-#btnEditar:hover {
-  opacity: 0.7;
-}
-#btnExcluir:hover {
-  opacity: 0.7;
-}
-#btnConfirmar:hover {
-  opacity: 0.7;
-}
+#btnVoltar:hover,
+#btnNovo:hover,
+#btnEditar:hover,
+#btnExcluir:hover,
+#btnConfirmar:hover,
 #btnCancelar:hover {
   opacity: 0.7;
+}
+
+/* Estilo visual para botões desativados */
+button:disabled,
+#btnNovo:disabled,
+#btnEditar:disabled,
+#btnExcluir:disabled,
+#btnConfirmar:disabled,
+#btnCancelar:disabled {
+  opacity: 0.5;           /* deixa o botão “apagado” */
+  cursor: not-allowed;    /* muda o cursor para indicar que está bloqueado */
+  filter: grayscale(50%); /* opcional: dá um tom acinzentado */
 }
