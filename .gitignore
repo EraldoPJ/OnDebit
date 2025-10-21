@@ -1,1 +1,13 @@
+# Node
 node_modules/
+npm-debug.log
+.DS_Store
+
+# Build outputs
+dist/
+out/
+*.log
+
+# Electron binaries
+*.app
+*.exe
