@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/EraldoPJ/OnDebit#readme",
   "devDependencies": {
-    "electron": "^38.3.0"
+    "electron": "^38.3.0",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1"
   }
 }

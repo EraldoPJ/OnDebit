@@ -47,14 +47,51 @@ btnExcluir.addEventListener("click", () => {
   telefone.disabled = true
   email.disabled = true
   observacao.disabled = true
+
+  // limpa os campos
+  nome.value = ""
+  telefone.value = ""
+  email.value = ""
+  observacao.value = ""
 })
 
 // Evento de clique no botão "Confirmar"
-btnConfirmar.addEventListener("click", () => {
+btnConfirmar.addEventListener("click", async () => {
+  //finaliza os campos desabilitados
   nome.disabled = true
   telefone.disabled = true
   email.disabled = true
   observacao.disabled = true
+
+  // Cria um objeto "cliente" com os valores digitados nos campos
+  // Isso facilita enviar todas as informações juntas para o backend
+  const novocliente = {
+    nome: nome.value, // valor do campo nome
+    telefone: telefone.value, // valor do campo telefone
+    email: email.value, // valor do campo email
+    observacao: observacao.value, // valor do campo observação
+  }
+
+  // Chama a função "salvarCliente" que foi exposta pelo preload.js
+  // Essa função usa o IPC do Electron pra enviar os dados ao main.js,
+  // onde o Node (com o better-sqlite3) faz o INSERT no banco de dados.
+  const resultadoCliente = await window.electronAPI.salvarCliente(novocliente)
+
+  // "resultado" é o retorno enviado pelo main.js.
+  // Ele contém algo assim: { sucesso: true, mensagem: 'Cliente salvo com sucesso!' }
+
+  // Se o salvamento foi bem-sucedido:
+  if (resultadoCliente.sucesso) {
+    alert(resultadoCliente.mensagem) // Mostra mensagem de sucesso
+  } else {
+    alert(resultadoCliente.mensagem) // Mostra mensagem de erro (vinda do main.js)
+  }
+
+  // limpa os campos
+  nome.value = ""
+  telefone.value = ""
+  email.value = ""
+  observacao.value = ""
 
   btnNovo.disabled = false
   btnEditar.disabled = false
@@ -68,7 +105,13 @@ btnCancelar.addEventListener("click", () => {
   telefone.disabled = true
   email.disabled = true
   observacao.disabled = true
-  
+
+  // limpa os campos
+  nome.value = ""
+  telefone.value = ""
+  email.value = ""
+  observacao.value = ""
+
   btnNovo.disabled = false
   btnEditar.disabled = false
   btnConfirmar.disabled = true
