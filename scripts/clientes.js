@@ -117,3 +117,10 @@ btnCancelar.addEventListener("click", () => {
   btnConfirmar.disabled = true
   btnCancelar.disabled = true
 })
+
+// Evento de clique no botão "Pesquisar"
+const btnPesquisar = document.getElementById("btnPesquisar")
+
+btnPesquisar.addEventListener("click", () => {
+  window.electronAPI.abrirConsultaClientes()
+})
