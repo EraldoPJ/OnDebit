@@ -6,4 +6,3 @@ contextBridge.exposeInMainWorld("electronAPI", {
   buscarClientes: (filtros) => ipcRenderer.invoke("buscar-clientes", filtros),
   abrirConsultaClientes: () => ipcRenderer.send("abrir-consulta-clientes"),
 })
-

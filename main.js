@@ -50,8 +50,6 @@ ipcMain.handle("salvar-cliente", async (event, cliente) => {
 // Busca clientes com filtros opcionais dinâmicos
 ipcMain.handle("buscar-clientes", async (event, filtros) => {
   try {
-    console.log("Filtros recebidos:", filtros)
-
     const db = require("./scripts/db.js")
 
     // Monta a query base
@@ -86,12 +84,15 @@ ipcMain.on("abrir-consulta-clientes", () => {
     width: 700,
     height: 500,
     resizable: false,
-    parent: BrowserWindow.getFocusedWindow(), // deixa a janela principal bloqueada
-    modal: true, // impede interação com a principal
+    parent: BrowserWindow.getFocusedWindow(),
     webPreferences: {
       preload: path.join(__dirname, "./scripts/preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
     },
   })
+
+  consultaWin.loadFile(
+    path.join(__dirname, "./consultas/consultaClientes.html")
+  )
 })
