@@ -22,6 +22,19 @@ btnBuscar.addEventListener("click", async () => {
     row.insertCell(2).textContent = cli.telefone_cli
     row.insertCell(3).textContent = cli.email_cli
     row.insertCell(4).textContent = cli.obs_cli || ""
+
+    // 👉 Quando o usuário der duplo clique na linha
+    row.addEventListener("dblclick", () => {
+      // Envia o cliente selecionado para o main.js
+      window.electronAPI.selecionarCliente(cli)
+      // Fecha a janela de consulta
+      window.close()
+
+      nome.disabled = true
+      telefone.disabled = true
+      email.disabled = true
+      observacao.disabled = true
+    })
   })
 })
 

@@ -4,6 +4,7 @@ const btnEditar = document.getElementById("btnEditar")
 const btnExcluir = document.getElementById("btnExcluir")
 const btnConfirmar = document.getElementById("btnConfirmar")
 const btnCancelar = document.getElementById("btnCancelar")
+const btnPesquisar = document.getElementById("btnPesquisar")
 
 const id = document.getElementById("id")
 const nome = document.getElementById("nome")
@@ -118,9 +119,24 @@ btnCancelar.addEventListener("click", () => {
   btnCancelar.disabled = true
 })
 
-// Evento de clique no botão "Pesquisar"
-const btnPesquisar = document.getElementById("btnPesquisar")
-
+//Evento de clique do botao pesquisar
 btnPesquisar.addEventListener("click", () => {
+  nome.disabled = false
+  telefone.disabled = false
+  email.disabled = false
+  observacao.disabled = false
+
   window.electronAPI.abrirConsultaClientes()
+})
+
+/* ------------------- RECEBER CLIENTE SELECIONADO ------------------- */
+
+// Quando o usuário der duplo clique na tela de consulta,
+// o cliente é enviado pra cá e preenche os campos:
+window.electronAPI.clienteSelecionado((cliente) => {
+  id.value = cliente.id_cli
+  nome.value = cliente.nome_cli
+  telefone.value = cliente.telefone_cli
+  email.value = cliente.email_cli
+  observacao.value = cliente.obs_cli || ""
 })

@@ -1,20 +1,22 @@
+let janelaPrincipal // referência global
+
 // main.js
 const { app, BrowserWindow, ipcMain } = require("electron")
 const path = require("path")
 
 function createWindow() {
-  const win = new BrowserWindow({
+  janelaPrincipal = new BrowserWindow({
     width: 1000,
     height: 700,
+    title: "OnDebit",
     webPreferences: {
-      preload: path.join(__dirname, "./scripts/preload.js"), // segurança: expõe APIs específicas
-      contextIsolation: true, // mantém isolamento seguro
-      nodeIntegration: false, // impede require no renderer
+      preload: path.join(__dirname, "./scripts/preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
     },
   })
 
-  // carrega a tua página index.html a partir da pasta do projeto
-  win.loadFile(path.join(__dirname, "index.html"))
+  janelaPrincipal.loadFile(path.join(__dirname, "index.html"))
 }
 
 app.whenReady().then(createWindow)
@@ -31,7 +33,7 @@ app.on("activate", () => {
 const db = require("./scripts/db.js") // importa teu módulo de banco
 
 //handle para fazer a definicao do comando feito para o banco.
-ipcMain.handle("salvar-cliente", async (event, cliente) => {
+ipcMain.handle("incluir-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
       INSERT INTO clientes (nome_cli, telefone_cli, email_cli, obs_cli)
@@ -79,12 +81,14 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
   }
 })
 
+// Abre a janela de consulta de clientes
 ipcMain.on("abrir-consulta-clientes", () => {
   const consultaWin = new BrowserWindow({
     width: 700,
     height: 500,
     resizable: false,
     parent: BrowserWindow.getFocusedWindow(),
+    modal: true,
     webPreferences: {
       preload: path.join(__dirname, "./scripts/preload.js"),
       contextIsolation: true,
@@ -95,4 +99,16 @@ ipcMain.on("abrir-consulta-clientes", () => {
   consultaWin.loadFile(
     path.join(__dirname, "./consultas/consultaClientes.html")
   )
+})
+
+// Recebe o cliente selecionado e envia pra janela principal
+ipcMain.on("selecionar-cliente", (event, cliente) => {
+  console.log("🟢 Cliente recebido no main:", cliente)
+
+  if (janelaPrincipal && !janelaPrincipal.isDestroyed()) {
+    console.log("🔵 Enviando cliente para a janela principal...")
+    janelaPrincipal.webContents.send("carregar-cliente", cliente)
+  } else {
+    console.error("❌ Janela principal não encontrada ou já foi destruída!")
+  }
 })
