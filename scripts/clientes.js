@@ -19,6 +19,7 @@ btnNovo.addEventListener("click", () => {
   email.disabled = false
   observacao.disabled = false
 
+  btnNovo.disabled = true
   btnEditar.disabled = true
   btnConfirmar.disabled = false
   btnCancelar.disabled = false
@@ -35,6 +36,7 @@ btnEditar.addEventListener("click", () => {
   observacao.disabled = false
 
   btnNovo.disabled = true
+  btnEditar.disabled = true
   btnExcluir.disabled = true
   btnConfirmar.disabled = false
   btnCancelar.disabled = false
@@ -44,58 +46,105 @@ btnEditar.addEventListener("click", () => {
 })
 
 // Evento de clique no botão "Excluir"
-btnExcluir.addEventListener("click", () => {
-  nome.disabled = true
-  telefone.disabled = true
-  email.disabled = true
-  observacao.disabled = true
+btnExcluir.addEventListener("click", async () => {
+  if (id.value === "") {
+    alert("Nenhum cliente carregado em tela!!!")
+  } else {
+    const desejaExcluir = confirm(
+      "Deseja excluir o cliente ID: " + id.value + "?"
+    )
 
-  // limpa os campos
-  nome.value = ""
-  telefone.value = ""
-  email.value = ""
-  observacao.value = ""
+    if (desejaExcluir) {
+      const excluirCliente = {
+        id: id.value, //valor do campo ID
+        nome: nome.value, // valor do campo nome
+        telefone: telefone.value, // valor do campo telefone
+        email: email.value, // valor do campo email
+        observacao: observacao.value, // valor do campo observação
+      }
+
+      const resultadoExcluirCliente = await window.electronAPI.excluirCliente(
+        excluirCliente
+      )
+
+      // Se o delete foi bem-sucedido:
+      if (resultadoExcluirCliente.sucesso) {
+        alert(resultadoExcluirCliente.mensagem) // Mostra mensagem de sucesso
+      } else {
+        alert(resultadoExcluirCliente.mensagem) // Mostra mensagem de erro (vinda do main.js)
+      }
+
+      //Desabilita inputs
+      nome.disabled = true
+      telefone.disabled = true
+      email.disabled = true
+      observacao.disabled = true
+
+      //Limpa os campos
+      id.value = ""
+      nome.value = ""
+      telefone.value = ""
+      email.value = ""
+      observacao.value = ""
+
+      //Controle de botoes
+      btnNovo.disabled = false
+      btnEditar.disabled = true
+      btnExcluir.disabled = true
+      btnConfirmar.disabled = true
+      btnCancelar.disabled = true
+      btnPesquisar.disabled = false
+    } else {
+      return
+    }
+  }
 })
 
 // Evento de clique no botão "Confirmar"
 btnConfirmar.addEventListener("click", async () => {
-  //finaliza os campos desabilitados
-  nome.disabled = true
-  telefone.disabled = true
-  email.disabled = true
-  observacao.disabled = true
-
-  // Cria um objeto "cliente" com os valores digitados nos campos
-  // Isso facilita enviar todas as informações juntas para o backend
-  const novocliente = {
-    nome: nome.value, // valor do campo nome
-    telefone: telefone.value, // valor do campo telefone
-    email: email.value, // valor do campo email
-    observacao: observacao.value, // valor do campo observação
-  }
-
-  // Chama a função "incluirCliente" que foi exposta pelo preload.js
-  // Essa função usa o IPC do Electron pra enviar os dados ao main.js,
-  // onde o Node (com o better-sqlite3) faz o INSERT no banco de dados.
-  const resultadoCliente = await window.electronAPI.incluirCliente(novocliente)
-
-  // Se o salvamento foi bem-sucedido:
-  if (resultadoCliente.sucesso) {
-    alert(resultadoCliente.mensagem) // Mostra mensagem de sucesso
+  if (nome.value === "" || telefone.value === "") {
+    alert("Informe no mínimo Nome e Telefone!!")
+    return
   } else {
-    alert(resultadoCliente.mensagem) // Mostra mensagem de erro (vinda do main.js)
+    const novoCliente = {
+      nome: nome.value, // valor do campo nome
+      telefone: telefone.value, // valor do campo telefone
+      email: email.value, // valor do campo email
+      observacao: observacao.value, // valor do campo observação
+    }
+
+    // Chama a função "incluirCliente" que foi exposta pelo preload.js
+    // Essa função usa o IPC do Electron pra enviar os dados ao main.js,
+    // onde o Node (com o better-sqlite3) faz o INSERT no banco de dados.
+    const resultadoCliente = await window.electronAPI.incluirCliente(
+      novoCliente
+    )
+
+    // Se o salvamento foi bem-sucedido:
+    if (resultadoCliente.sucesso) {
+      alert(resultadoCliente.mensagem) // Mostra mensagem de sucesso
+    } else {
+      alert(resultadoCliente.mensagem) // Mostra mensagem de erro (vinda do main.js)
+    }
+
+    //Desabilita inputs
+    nome.disabled = true
+    telefone.disabled = true
+    email.disabled = true
+    observacao.disabled = true
+
+    //Limpa os campos
+    nome.value = ""
+    telefone.value = ""
+    email.value = ""
+    observacao.value = ""
+
+    //Controle de botoes
+    btnNovo.disabled = false
+    btnEditar.disabled = false
+    btnConfirmar.disabled = true
+    btnCancelar.disabled = true
   }
-
-  // limpa os campos
-  nome.value = ""
-  telefone.value = ""
-  email.value = ""
-  observacao.value = ""
-
-  btnNovo.disabled = false
-  btnEditar.disabled = false
-  btnConfirmar.disabled = true
-  btnCancelar.disabled = true
 })
 
 // Evento de clique no botão "Cancelar"
@@ -117,15 +166,11 @@ btnCancelar.addEventListener("click", () => {
   btnExcluir.disabled = true
   btnConfirmar.disabled = true
   btnCancelar.disabled = true
+  btnPesquisar.disabled = false
 })
 
 //Evento de clique do botao pesquisar
 btnPesquisar.addEventListener("click", () => {
-  nome.disabled = false
-  telefone.disabled = false
-  email.disabled = false
-  observacao.disabled = false
-
   window.electronAPI.abrirConsultaClientes()
 
   btnNovo.disabled = true

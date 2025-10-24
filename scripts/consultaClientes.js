@@ -29,11 +29,6 @@ btnBuscar.addEventListener("click", async () => {
       window.electronAPI.selecionarCliente(cli)
       // Fecha a janela de consulta
       window.close()
-
-      nome.disabled = true
-      telefone.disabled = true
-      email.disabled = true
-      observacao.disabled = true
     })
   })
 })

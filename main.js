@@ -32,6 +32,26 @@ app.on("activate", () => {
 
 const db = require("./scripts/db.js") // importa teu módulo de banco
 
+// Abre a janela de consulta de clientes
+ipcMain.on("abrir-consulta-clientes", () => {
+  const consultaCli = new BrowserWindow({
+    width: 700,
+    height: 500,
+    resizable: false,
+    parent: BrowserWindow.getFocusedWindow(),
+    modal: true,
+    webPreferences: {
+      preload: path.join(__dirname, "./scripts/preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  })
+
+  consultaCli.loadFile(
+    path.join(__dirname, "./consultas/consultaClientes.html")
+  )
+})
+
 //handle para fazer a definicao do comando feito para o banco.
 ipcMain.handle("incluir-cliente", async (event, cliente) => {
   try {
@@ -49,7 +69,26 @@ ipcMain.handle("incluir-cliente", async (event, cliente) => {
   }
 })
 
-// Busca clientes com filtros opcionais dinâmicos
+//handle para fazer a exclusao das informacoes do DB.
+ipcMain.handle("excluir-cliente", async (event, cliente) => {
+  try {
+    const stmt = db.prepare(`
+      DELETE FROM clientes WHERE id_cli = ? AND nome_cli = ?
+    `)
+
+    stmt.run(cliente.id, cliente.nome)
+
+    return {
+      sucesso: true,
+      mensagem: "Cliente ID: " + cliente.id + " excluído com sucesso!",
+    }
+  } catch (erro) {
+    console.error("Erro ao excluir cliente:", erro)
+    return { sucesso: false, mensagem: "Erro ao excluir cliente." }
+  }
+})
+
+// Busca clientes com filtros opcionais dinâmicos-------------------------------------------------------------------------
 ipcMain.handle("buscar-clientes", async (event, filtros) => {
   try {
     const db = require("./scripts/db.js")
@@ -81,27 +120,8 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
   }
 })
 
-// Abre a janela de consulta de clientes
-ipcMain.on("abrir-consulta-clientes", () => {
-  const consultaCli = new BrowserWindow({
-    width: 700,
-    height: 500,
-    resizable: false,
-    parent: BrowserWindow.getFocusedWindow(),
-    modal: true,
-    webPreferences: {
-      preload: path.join(__dirname, "./scripts/preload.js"),
-      contextIsolation: true,
-      nodeIntegration: false,
-    },
-  })
-
-  consultaCli.loadFile(
-    path.join(__dirname, "./consultas/consultaClientes.html")
-  )
-})
-
 // Recebe o cliente selecionado e envia pra janela principal
 ipcMain.on("selecionar-cliente", (event, cliente) => {
   janelaPrincipal.webContents.send("carregar-cliente", cliente)
 })
+//-----------------------------------------------------------------------------------------------------------------------------------------------

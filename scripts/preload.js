@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require("electron")
 
 contextBridge.exposeInMainWorld("electronAPI", {
   incluirCliente: (cliente) => ipcRenderer.invoke("incluir-cliente", cliente),
+  excluirCliente: (cliente) => ipcRenderer.invoke("excluir-cliente", cliente),
   buscarClientes: (filtros) => ipcRenderer.invoke("buscar-clientes", filtros),
   abrirConsultaClientes: () => ipcRenderer.send("abrir-consulta-clientes"),
   selecionarCliente: (cliente) =>
@@ -13,4 +14,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
       console.log("🟣 Cliente recebido no preload:", cliente)
       callback(cliente)
     }),
+
 })
