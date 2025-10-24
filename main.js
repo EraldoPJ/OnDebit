@@ -42,10 +42,10 @@ ipcMain.handle("incluir-cliente", async (event, cliente) => {
 
     stmt.run(cliente.nome, cliente.telefone, cliente.email, cliente.observacao)
 
-    return { sucesso: true, mensagem: "Cliente salvo com sucesso!" }
+    return { sucesso: true, mensagem: "Cliente incluido com sucesso!" }
   } catch (erro) {
-    console.error("Erro ao salvar cliente:", erro)
-    return { sucesso: false, mensagem: "Erro ao salvar cliente." }
+    console.error("Erro ao incluir cliente:", erro)
+    return { sucesso: false, mensagem: "Erro ao incluir cliente." }
   }
 })
 
@@ -83,7 +83,7 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
 
 // Abre a janela de consulta de clientes
 ipcMain.on("abrir-consulta-clientes", () => {
-  const consultaWin = new BrowserWindow({
+  const consultaCli = new BrowserWindow({
     width: 700,
     height: 500,
     resizable: false,
@@ -96,19 +96,12 @@ ipcMain.on("abrir-consulta-clientes", () => {
     },
   })
 
-  consultaWin.loadFile(
+  consultaCli.loadFile(
     path.join(__dirname, "./consultas/consultaClientes.html")
   )
 })
 
 // Recebe o cliente selecionado e envia pra janela principal
 ipcMain.on("selecionar-cliente", (event, cliente) => {
-  console.log("🟢 Cliente recebido no main:", cliente)
-
-  if (janelaPrincipal && !janelaPrincipal.isDestroyed()) {
-    console.log("🔵 Enviando cliente para a janela principal...")
-    janelaPrincipal.webContents.send("carregar-cliente", cliente)
-  } else {
-    console.error("❌ Janela principal não encontrada ou já foi destruída!")
-  }
+  janelaPrincipal.webContents.send("carregar-cliente", cliente)
 })

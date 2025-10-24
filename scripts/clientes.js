@@ -35,6 +35,7 @@ btnEditar.addEventListener("click", () => {
   observacao.disabled = false
 
   btnNovo.disabled = true
+  btnExcluir.disabled = true
   btnConfirmar.disabled = false
   btnCancelar.disabled = false
 
@@ -73,13 +74,10 @@ btnConfirmar.addEventListener("click", async () => {
     observacao: observacao.value, // valor do campo observação
   }
 
-  // Chama a função "salvarCliente" que foi exposta pelo preload.js
+  // Chama a função "incluirCliente" que foi exposta pelo preload.js
   // Essa função usa o IPC do Electron pra enviar os dados ao main.js,
   // onde o Node (com o better-sqlite3) faz o INSERT no banco de dados.
-  const resultadoCliente = await window.electronAPI.salvarCliente(novocliente)
-
-  // "resultado" é o retorno enviado pelo main.js.
-  // Ele contém algo assim: { sucesso: true, mensagem: 'Cliente salvo com sucesso!' }
+  const resultadoCliente = await window.electronAPI.incluirCliente(novocliente)
 
   // Se o salvamento foi bem-sucedido:
   if (resultadoCliente.sucesso) {
@@ -108,13 +106,15 @@ btnCancelar.addEventListener("click", () => {
   observacao.disabled = true
 
   // limpa os campos
+  id.value = ""
   nome.value = ""
   telefone.value = ""
   email.value = ""
   observacao.value = ""
 
   btnNovo.disabled = false
-  btnEditar.disabled = false
+  btnEditar.disabled = true
+  btnExcluir.disabled = true
   btnConfirmar.disabled = true
   btnCancelar.disabled = true
 })
@@ -127,6 +127,12 @@ btnPesquisar.addEventListener("click", () => {
   observacao.disabled = false
 
   window.electronAPI.abrirConsultaClientes()
+
+  btnNovo.disabled = true
+  btnEditar.disabled = false
+  btnExcluir.disabled = false
+  btnConfirmar.disabled = true
+  btnCancelar.disabled = false
 })
 
 /* ------------------- RECEBER CLIENTE SELECIONADO ------------------- */
