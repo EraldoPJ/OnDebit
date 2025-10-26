@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Consulta de Clientes</title>
-  <script defer src="../scripts/consultaClientes.js"></script>
   <title>Document</title>
 </head>
 <body>
-    <h2>Consulta de Clientes</h2>
-
- <!-- Campos de filtro -->
-<label for="filtroNome">Nome:</label>
-<input type="text" id="filtroNome" placeholder="Digite o nome..." />
-
-<label for="filtroTelefone">Telefone:</label>
-<input type="text" id="filtroTelefone" placeholder="Digite o telefone..." />
+  <h2>Consulta de Clientes</h2>
+  
+  <!-- Campos de filtro -->
+  <label for="filtroNome">Nome:</label>
+  <input type="text" id="filtroNome" placeholder="Digite o nome..." />
+  
+  <label for="filtroTelefone">Telefone:</label>
+  <input type="text" id="filtroTelefone" placeholder="Digite o telefone..." />
   
   <button id="btnBuscar">Buscar</button>
   <button id="btnFechar">Fechar</button>
-
+  
   <!-- Tabela de resultados -->
   <table border="1" width="100%" style="margin-top: 15px;">
     <thead>
@@ -34,5 +34,7 @@
     <tbody id="tabelaClientes">
       <!-- resultados vão aparecer aqui -->
     </tbody>
-</body>
+    
+  </body>
+  <script defer src="../../scripts/consultas/consultaClientes.js"></script>
 </html>

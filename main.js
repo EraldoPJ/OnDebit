@@ -48,7 +48,7 @@ ipcMain.on("abrir-consulta-clientes", () => {
   })
 
   consultaCli.loadFile(
-    path.join(__dirname, "./consultas/consultaClientes.html")
+    path.join(__dirname, "./telas/consultas/consultaClientes.html")
   )
 })
 
@@ -56,8 +56,8 @@ ipcMain.on("abrir-consulta-clientes", () => {
 ipcMain.handle("incluir-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
-      INSERT INTO clientes (nome_cli, telefone_cli, email_cli, obs_cli)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO clientes (nome_cli, telefone_cli, email_cli, obs_cli, data_cad)
+      VALUES (?, ?, ?, ?, CURRENT_DATE)
     `)
 
     stmt.run(cliente.nome, cliente.telefone, cliente.email, cliente.observacao)
@@ -73,7 +73,7 @@ ipcMain.handle("incluir-cliente", async (event, cliente) => {
 ipcMain.handle("excluir-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
-      DELETE FROM clientes WHERE id_cli = ? AND nome_cli = ?
+      DELETE FROM clientes clientes WHERE clientes.id_cli = ? AND clientes.nome_cli = ?
     `)
 
     stmt.run(cliente.id, cliente.nome)
@@ -94,18 +94,18 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
     const db = require("./scripts/db.js")
 
     // Monta a query base
-    let queryClientes = "SELECT * FROM clientes WHERE 1=1"
+    let queryClientes = "SELECT * FROM clientes clientes WHERE 1=1"
     const params = []
 
     // Se tiver nome informado, adiciona na query
     if (filtros.nome && filtros.nome.trim() !== "") {
-      queryClientes += " AND nome_cli LIKE ?"
+      queryClientes += " AND clientes.nome_cli LIKE ?"
       params.push(`%${filtros.nome}%`)
     }
 
     // Se tiver telefone informado, adiciona na query
     if (filtros.telefone && filtros.telefone.trim() !== "") {
-      queryClientes += " AND telefone_cli LIKE ?"
+      queryClientes += " AND clientes.telefone_cli LIKE ?"
       params.push(`%${filtros.telefone}%`)
     }
 

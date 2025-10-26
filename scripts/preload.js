@@ -14,5 +14,4 @@ contextBridge.exposeInMainWorld("electronAPI", {
       console.log("🟣 Cliente recebido no preload:", cliente)
       callback(cliente)
     }),
-
 })

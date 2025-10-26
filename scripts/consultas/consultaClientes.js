@@ -37,3 +37,4 @@ btnBuscar.addEventListener("click", async () => {
 document.getElementById("btnFechar").addEventListener("click", () => {
   window.close()
 })
+
