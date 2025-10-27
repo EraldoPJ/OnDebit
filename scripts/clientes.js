@@ -14,6 +14,8 @@ const observacao = document.getElementById("observacao")
 
 // Evento de clique no botão "Novo"
 btnNovo.addEventListener("click", () => {
+  controleInclusao = "I"
+
   nome.disabled = false
   telefone.disabled = false
   email.disabled = false
@@ -29,7 +31,9 @@ btnNovo.addEventListener("click", () => {
 })
 
 // Evento de clique no botão "Editar"
-btnEditar.addEventListener("click", () => {
+btnEditar.addEventListener("click", async () => {
+  controleEdicao = "E"
+
   nome.disabled = false
   telefone.disabled = false
   email.disabled = false
@@ -40,6 +44,7 @@ btnEditar.addEventListener("click", () => {
   btnExcluir.disabled = true
   btnConfirmar.disabled = false
   btnCancelar.disabled = false
+  btnPesquisar.disabled = true
 
   // (opcional) Coloca o foco automaticamente no campo nome
   nome.focus()
@@ -98,6 +103,9 @@ btnExcluir.addEventListener("click", async () => {
       return
     }
   }
+
+  controleInclusao = ""
+  controleEdicao = ""
 })
 
 // Evento de clique no botão "Confirmar"
@@ -106,25 +114,43 @@ btnConfirmar.addEventListener("click", async () => {
     alert("Informe no mínimo Nome e Telefone!!")
     return
   } else {
-    const novoCliente = {
-      nome: nome.value, // valor do campo nome
-      telefone: telefone.value, // valor do campo telefone
-      email: email.value, // valor do campo email
-      observacao: observacao.value, // valor do campo observação
-    }
+    if (controleInclusao === "I") {
+      const inclusaoCliente = {
+        nome: nome.value, // valor do campo nome
+        telefone: telefone.value, // valor do campo telefone
+        email: email.value, // valor do campo email
+        observacao: observacao.value, // valor do campo observação
+      }
 
-    // Chama a função "incluirCliente" que foi exposta pelo preload.js
-    // Essa função usa o IPC do Electron pra enviar os dados ao main.js,
-    // onde o Node (com o better-sqlite3) faz o INSERT no banco de dados.
-    const resultadoCliente = await window.electronAPI.incluirCliente(
-      novoCliente
-    )
+      const resultadoInclusao = await window.electronAPI.incluirCliente(
+        inclusaoCliente
+      )
 
-    // Se o salvamento foi bem-sucedido:
-    if (resultadoCliente.sucesso) {
-      alert(resultadoCliente.mensagem) // Mostra mensagem de sucesso
-    } else {
-      alert(resultadoCliente.mensagem) // Mostra mensagem de erro (vinda do main.js)
+      // Se o salvamento foi bem-sucedido:
+      if (resultadoInclusao.sucesso) {
+        alert(resultadoInclusao.mensagem) // Mostra mensagem de sucesso
+      } else {
+        alert(resultadoInclusao.mensagem) // Mostra mensagem de erro (vinda do main.js)
+      }
+    } else if (controleEdicao === "E") {
+      const edicaoCliente = {
+        id: id.value, // passa o id para update
+        nome: nome.value, // valor do campo nome
+        telefone: telefone.value, // valor do campo telefone
+        email: email.value, // valor do campo email
+        observacao: observacao.value, // valor do campo observação
+      }
+
+      const resultadoEdicao = await window.electronAPI.editarCliente(
+        edicaoCliente
+      )
+
+      // Se a edicao foi bem-sucedida:
+      if (resultadoEdicao.sucesso) {
+        alert(resultadoEdicao.mensagem) // Mostra mensagem de sucesso
+      } else {
+        alert(resultadoEdicao.mensagem) // Mostra mensagem de erro (vinda do main.js)
+      }
     }
 
     //Desabilita inputs
@@ -134,6 +160,7 @@ btnConfirmar.addEventListener("click", async () => {
     observacao.disabled = true
 
     //Limpa os campos
+    id.value = ""
     nome.value = ""
     telefone.value = ""
     email.value = ""
@@ -141,9 +168,13 @@ btnConfirmar.addEventListener("click", async () => {
 
     //Controle de botoes
     btnNovo.disabled = false
-    btnEditar.disabled = false
+    btnEditar.disabled = true
     btnConfirmar.disabled = true
     btnCancelar.disabled = true
+    btnPesquisar.disabled = false
+
+    controleInclusao = ""
+    controleEdicao = ""
   }
 })
 
@@ -167,6 +198,9 @@ btnCancelar.addEventListener("click", () => {
   btnConfirmar.disabled = true
   btnCancelar.disabled = true
   btnPesquisar.disabled = false
+
+  controleInclusao = ""
+  controleEdicao = ""
 })
 
 //Evento de clique do botao pesquisar
@@ -178,6 +212,9 @@ btnPesquisar.addEventListener("click", () => {
   btnExcluir.disabled = false
   btnConfirmar.disabled = true
   btnCancelar.disabled = false
+
+  controleInclusao = ""
+  controleEdicao = ""
 })
 
 /* ------------------- RECEBER CLIENTE SELECIONADO ------------------- */
@@ -190,4 +227,9 @@ window.electronAPI.clienteSelecionado((cliente) => {
   telefone.value = cliente.telefone_cli
   email.value = cliente.email_cli
   observacao.value = cliente.obs_cli || ""
+})
+
+//Ao clicar em fechar, emula o clique do botao cancelar.
+window.electronAPI.cancelarCliente(() => {
+  btnCancelar.click()
 })

@@ -1,4 +1,5 @@
-let janelaPrincipal // referência global
+let janelaPrincipal // referência janela principal
+let consultaCli // referencia tela de consulta de clientes.
 
 // main.js
 const { app, BrowserWindow, ipcMain } = require("electron")
@@ -34,7 +35,7 @@ const db = require("./scripts/db.js") // importa teu módulo de banco
 
 // Abre a janela de consulta de clientes
 ipcMain.on("abrir-consulta-clientes", () => {
-  const consultaCli = new BrowserWindow({
+  consultaCli = new BrowserWindow({
     width: 700,
     height: 500,
     resizable: false,
@@ -50,9 +51,13 @@ ipcMain.on("abrir-consulta-clientes", () => {
   consultaCli.loadFile(
     path.join(__dirname, "./telas/consultas/consultaClientes.html")
   )
+
+  consultaCli.on("closed", () => {
+    consultaCli = null
+  })
 })
 
-//handle para fazer a definicao do comando feito para o banco.
+//handle para fazer a inclusao do registro no banco.
 ipcMain.handle("incluir-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
@@ -69,14 +74,36 @@ ipcMain.handle("incluir-cliente", async (event, cliente) => {
   }
 })
 
+//handle para fazer a edicao de informacao no banco.
+ipcMain.handle("editar-cliente", async (event, cliente) => {
+  try {
+    const stmt = db.prepare(`
+      UPDATE clientes SET nome_cli = ?, telefone_cli = ?, email_cli = ?, obs_cli = ? WHERE id_cli = ?
+    `)
+
+    stmt.run(
+      cliente.nome,
+      cliente.telefone,
+      cliente.email,
+      cliente.observacao,
+      cliente.id
+    )
+
+    return { sucesso: true, mensagem: "Cliente editado com sucesso!" }
+  } catch (erro) {
+    console.error("Erro ao editar cliente:", erro)
+    return { sucesso: false, mensagem: "Erro ao editar cliente." }
+  }
+})
+
 //handle para fazer a exclusao das informacoes do DB.
 ipcMain.handle("excluir-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
-      DELETE FROM clientes clientes WHERE clientes.id_cli = ? AND clientes.nome_cli = ?
+      DELETE FROM clientes WHERE id_cli = ?
     `)
 
-    stmt.run(cliente.id, cliente.nome)
+    stmt.run(cliente.id)
 
     return {
       sucesso: true,
@@ -124,4 +151,12 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
 ipcMain.on("selecionar-cliente", (event, cliente) => {
   janelaPrincipal.webContents.send("carregar-cliente", cliente)
 })
+
+ipcMain.on("fechar-emula-cancelar", () => {
+  if (consultaCli && !consultaCli.isDestroyed()) {
+    // Envia um evento pra janela principal acionar o botão cancelar
+    janelaPrincipal.webContents.send("emula-cancelar")
+  }
+})
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------
