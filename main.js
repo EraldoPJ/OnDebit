@@ -11,7 +11,7 @@ function createWindow() {
     height: 700,
     title: "OnDebit",
     webPreferences: {
-      preload: path.join(__dirname, "./scripts/preload.js"),
+      preload: path.join(__dirname, "./preload/preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
     },
@@ -31,7 +31,7 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
-const db = require("./scripts/db.js") // importa teu módulo de banco
+const db = require("./backend/db.js") // importa teu módulo de banco
 
 // Abre a janela de consulta de clientes
 ipcMain.on("abrir-consulta-clientes", () => {
@@ -42,14 +42,14 @@ ipcMain.on("abrir-consulta-clientes", () => {
     parent: BrowserWindow.getFocusedWindow(),
     modal: true,
     webPreferences: {
-      preload: path.join(__dirname, "./scripts/preload.js"),
+      preload: path.join(__dirname, "./preload/preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
     },
   })
 
   consultaCli.loadFile(
-    path.join(__dirname, "./telas/consultas/consultaClientes.html")
+    path.join(__dirname, "./src/renderer/telas/consultas/consultaClientes.html")
   )
 
   consultaCli.on("closed", () => {
@@ -118,7 +118,7 @@ ipcMain.handle("excluir-cliente", async (event, cliente) => {
 // Busca clientes com filtros opcionais dinâmicos-------------------------------------------------------------------------
 ipcMain.handle("buscar-clientes", async (event, filtros) => {
   try {
-    const db = require("./scripts/db.js")
+    const db = require("./backend/db.js")
 
     // Monta a query base
     let queryClientes = "SELECT * FROM clientes clientes WHERE 1=1"
