@@ -125,6 +125,12 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
     const params = []
 
     // Se tiver nome informado, adiciona na query
+    if (filtros.id && filtros.id.trim() !== "") {
+      queryClientes += " AND clientes.id_cli LIKE ?"
+      params.push(`%${filtros.id}%`)
+    }
+
+    // Se tiver nome informado, adiciona na query
     if (filtros.nome && filtros.nome.trim() !== "") {
       queryClientes += " AND clientes.nome_cli LIKE ?"
       params.push(`%${filtros.nome}%`)

@@ -1,6 +1,7 @@
 // consulta_clientes.js
 
 // Pega os elementos da página
+const filtroId = document.getElementById("filtroId")
 const filtroNome = document.getElementById("filtroNome")
 const filtroTelefone = document.getElementById("filtroTelefone")
 const btnBuscar = document.getElementById("btnBuscar")
@@ -8,11 +9,12 @@ const tabela = document.getElementById("tabelaClientes")
 
 btnBuscar.addEventListener("click", async () => {
   // Captura os valores digitados
+  const id = filtroId.value.trim()
   const nome = filtroNome.value.trim()
   const telefone = filtroTelefone.value.trim()
 
   // Envia os filtros como um objeto para o backend
-  const clientes = await window.electronAPI.buscarClientes({ nome, telefone })
+  const clientes = await window.electronAPI.buscarClientes({ id, nome, telefone })
 
   tabela.innerHTML = ""
   clientes.forEach((cli) => {
