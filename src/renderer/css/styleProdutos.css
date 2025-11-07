@@ -1,10 +1,11 @@
-#formCliente {
+#formProduto {
   padding: 10px 0px 10px 50px;
   border: 1px solid red;
 }
 
 /*Feito para dar um estilo um pouco diferente para os inputs*/
-#id {
+#id,
+#situacao {
   border-radius: 5px;
   width: 70px;
 }
@@ -12,13 +13,9 @@
   border-radius: 5px;
   width: 300px;
 }
-#telefone {
+#preco {
   border-radius: 5px;
   width: 120px;
-}
-#email {
-  border-radius: 5px;
-  width: 300px;
 }
 #observacao {
   border-radius: 5px;
@@ -26,7 +23,7 @@
 }
 
 /*Feito para alterar propriedades e espacamentos*/
-#rodapeCliente {
+#rodapeProduto {
   display: flex;
   justify-content: flex-start;
 

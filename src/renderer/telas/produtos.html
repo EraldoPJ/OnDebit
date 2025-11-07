@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/styleProdutos.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,14 +17,51 @@
   </head>
   <body>
     <h1 id="title">Cadastro de produtos</h1>
+    <form id="formProduto" autocomplete="off">
+      <div>
+        <label for="id">ID:</label><br />
+        <input type="text" id="id" name="id" disabled />
+      </div>
+      <div>
+        <label for="situacao">Situação:</label><br />
+        <select name="situacao" id="situacao" disabled>
+          <option value="A">Ativo</option>
+          <option value="I">Inativo</option>
+        </select>
+      </div>
+      <div>
+        <label for="nome">Nome:</label><br />
+        <input type="text" id="nome" name="nome" disabled />
+      </div>
+      <div>
+        <label for="preco">Preço:</label><br />
+        <input type="number" id="preco" name="preco" placeholder="R$0,00" disabled/>
+      </div>
+      <div>
+        <label for="observacao">Observação:</label><br />
+        <textarea
+          id="observacao"
+          name="observacao"
+          rows="4"
+          cols="40"
+          disabled
+        ></textarea>
+      </div>
+    </form>
   </body>
-  <footer>
-    <div>
-      <a id="voltar" href="../../../index.html"
-        ><ion-icon name="arrow-back-circle-outline"></ion-icon
-      ></a>
+  <footer id="rodapeProduto">
+    <div id="botoesProduto">
+      <button type="button" id="btnVoltar">
+        <a href="../../../index.html">Voltar</a>
+      </button>
+      <button type="button" id="btnNovo">Novo</button>
+      <button type="button" id="btnEditar" disabled>Editar</button>
+      <button type="button" id="btnExcluir" disabled>Excluir</button>
+      <button type="button" id="btnConfirmar" disabled>Confirmar</button>
+      <button type="button" id="btnCancelar" disabled>Cancelar</button>
+      <button type="button" id="btnPesquisar">Pesquisar</button>
     </div>
   </footer>
 
-  <script type="module" src="../../../assets/icons/ionicons.js"></script>
+  <script src="../js/produtos.js"></script>
 </html>
