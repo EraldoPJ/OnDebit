@@ -14,7 +14,11 @@ btnBuscar.addEventListener("click", async () => {
   const telefone = filtroTelefone.value.trim()
 
   // Envia os filtros como um objeto para o backend
-  const clientes = await window.electronAPI.buscarClientes({ id, nome, telefone })
+  const clientes = await window.electronAPI.buscarClientes({
+    id,
+    nome,
+    telefone,
+  })
 
   tabela.innerHTML = ""
   clientes.forEach((cli) => {
@@ -37,6 +41,6 @@ btnBuscar.addEventListener("click", async () => {
 
 //Serve para fechar a tela no clique do botao fechar.
 document.getElementById("btnFechar").addEventListener("click", () => {
-  window.electronAPI.fecharEmulaCancelar()
+  window.electronAPI.fecharEmulaCancelarCli()
   window.close()
 })

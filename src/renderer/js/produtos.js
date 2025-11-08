@@ -110,7 +110,7 @@ btnExcluir.addEventListener("click", async () => {
 
 // Evento de clique no botão "Confirmar"
 btnConfirmar.addEventListener("click", async () => {
-  if (nome.value === "" || telefone.value === "") {
+  if (nome.value === "" || preco.value === "") {
     alert("Informe no mínimo Nome e Preço!!")
     return
   } else {
@@ -118,7 +118,7 @@ btnConfirmar.addEventListener("click", async () => {
       const inclusaoProduto = {
         situacao: situacao.value, // valor do campo situacao
         nome: nome.value, // valor do campo nome
-        preco: email.value, // valor do campo preco
+        preco: preco.value, // valor do campo preco
         observacao: observacao.value, // valor do campo observação
       }
 
@@ -135,9 +135,9 @@ btnConfirmar.addEventListener("click", async () => {
     } else if (controleEdicao === "E") {
       const edicaoProduto = {
         id: id.value, // passa o id para update
+        situacao: situacao.value, // valor do campo telefone
         nome: nome.value, // valor do campo nome
-        telefone: telefone.value, // valor do campo telefone
-        email: email.value, // valor do campo email
+        preco: preco.value, // valor do campo email
         observacao: observacao.value, // valor do campo observação
       }
 

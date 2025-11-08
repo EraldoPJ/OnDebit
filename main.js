@@ -90,13 +90,13 @@ ipcMain.on("abrir-consulta-produtos", () => {
 })
 
 //---------------------------------------------- INCLUSAO NO BANCO DE DADOS ----------------------------------------------//
-//handle para fazer a inclusao do registro no banco.
+//handle para fazer a inclusao de cliente no banco.
 ipcMain.handle("incluir-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
       INSERT INTO clientes (nome_cli, telefone_cli, email_cli, obs_cli, data_cad)
       VALUES (?, ?, ?, ?, CURRENT_DATE)
-    `)
+      `)
 
     stmt.run(cliente.nome, cliente.telefone, cliente.email, cliente.observacao)
 
@@ -104,6 +104,26 @@ ipcMain.handle("incluir-cliente", async (event, cliente) => {
   } catch (erro) {
     console.error("Erro ao incluir cliente:", erro)
     return { sucesso: false, mensagem: "Erro ao incluir cliente." }
+  }
+})
+
+//handle para fazer a inclusao de cliente no banco.
+ipcMain.handle("incluir-produto", async (event, produto) => {
+  try {
+    const stmt = db.prepare(`
+      INSERT INTO produtos (sit_prod, nome_prod, preco_prod, obs_prod, data_cad)
+      VALUES (?, ?, ?, ?, CURRENT_DATE)
+    `)
+
+    stmt.run(produto.situacao, produto.nome, produto.preco, produto.observacao)
+
+    return {
+      sucesso: true,
+      mensagem: "Produto incluido com sucesso!",
+    }
+  } catch (erro) {
+    console.error("Erro ao incluir produto:", erro)
+    return { sucesso: false, mensagem: "Erro ao incluir produto." }
   }
 })
 
@@ -237,9 +257,16 @@ ipcMain.on("selecionar-produto", (event, produto) => {
   janelaPrincipal.webContents.send("carregar-produto", produto)
 })
 
-ipcMain.on("fechar-emula-cancelar", () => {
+ipcMain.on("fechar-emula-cancelar-cli", () => {
   if (consultaCli && !consultaCli.isDestroyed()) {
     // Envia um evento pra janela principal acionar o botão cancelar
-    janelaPrincipal.webContents.send("emula-cancelar")
+    janelaPrincipal.webContents.send("emula-cancelar-cli")
+  }
+})
+
+ipcMain.on("fechar-emula-cancelar-prod", () => {
+  if (consultaCli && !consultaCli.isDestroyed()) {
+    // Envia um evento pra janela principal acionar o botão cancelar
+    janelaPrincipal.webContents.send("emula-cancelar-prod")
   }
 })

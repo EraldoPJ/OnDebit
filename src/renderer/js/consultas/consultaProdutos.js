@@ -41,6 +41,6 @@ btnBuscar.addEventListener("click", async () => {
 
 //Serve para fechar a tela no clique do botao fechar.
 document.getElementById("btnFechar").addEventListener("click", () => {
-  window.electronAPI.fecharEmulaCancelar()
+  window.electronAPI.fecharEmulaCancelarProd()
   window.close()
 })

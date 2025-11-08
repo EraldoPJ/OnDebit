@@ -17,6 +17,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
       callback(cliente)
     }),
 
+  //Realiza o fechamento das telas de consulta
+  fecharEmulaCancelarCli: () => ipcRenderer.send("fechar-emula-cancelar-cli"),
+
+  cancelarCliente: (callback) =>
+    ipcRenderer.on("emula-cancelar-cli", () => callback()),
+
   //Processos de Produtos----------------------------------------------------------------------------------------------------------------------
   incluirProduto: (produto) => ipcRenderer.invoke("incluir-produto", produto),
   editarProduto: (produto) => ipcRenderer.invoke("editar-produto", produto),
@@ -33,10 +39,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
       callback(produto)
     }),
 
-  
   //Realiza o fechamento das telas de consulta
-  fecharEmulaCancelar: () => ipcRenderer.send("fechar-emula-cancelar"),
+  fecharEmulaCancelarProd: () => ipcRenderer.send("fechar-emula-cancelar-prod"),
 
-  cancelarCliente: (callback) =>
-    ipcRenderer.on("emula-cancelar", () => callback()),
+  cancelarProduto: (callback) =>
+    ipcRenderer.on("emula-cancelar-prod", () => callback()),
 })
