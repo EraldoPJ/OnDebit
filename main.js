@@ -265,7 +265,7 @@ ipcMain.on("fechar-emula-cancelar-cli", () => {
 })
 
 ipcMain.on("fechar-emula-cancelar-prod", () => {
-  if (consultaCli && !consultaCli.isDestroyed()) {
+  if (consultaProd && !consultaProd.isDestroyed()) {
     // Envia um evento pra janela principal acionar o botão cancelar
     janelaPrincipal.webContents.send("emula-cancelar-prod")
   }

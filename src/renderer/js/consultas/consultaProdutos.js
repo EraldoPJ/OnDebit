@@ -5,6 +5,7 @@ const filtroId = document.getElementById("filtroId")
 const filtroSituacao = document.getElementById("filtroSituacao")
 const filtroNome = document.getElementById("filtroNome")
 const btnBuscar = document.getElementById("btnBuscar")
+const btnFechar = document.getElementById("btnFechar")
 const tabela = document.getElementById("tabelaProdutos")
 
 btnBuscar.addEventListener("click", async () => {
@@ -40,7 +41,12 @@ btnBuscar.addEventListener("click", async () => {
 })
 
 //Serve para fechar a tela no clique do botao fechar.
-document.getElementById("btnFechar").addEventListener("click", () => {
+btnFechar.addEventListener("click", () => {
   window.electronAPI.fecharEmulaCancelarProd()
-  window.close()
+
+  // espera curtinha para dar tempo ao main de encaminhar o evento antes de fechar a janela.
+  // 100ms costuma ser suficiente; se preferir pode ajustar.
+  setTimeout(() => {
+    window.close()
+  }, 50)
 })

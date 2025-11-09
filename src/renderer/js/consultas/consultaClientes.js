@@ -5,6 +5,7 @@ const filtroId = document.getElementById("filtroId")
 const filtroNome = document.getElementById("filtroNome")
 const filtroTelefone = document.getElementById("filtroTelefone")
 const btnBuscar = document.getElementById("btnBuscar")
+const btnFechar = document.getElementById("btnFechar")
 const tabela = document.getElementById("tabelaClientes")
 
 btnBuscar.addEventListener("click", async () => {
@@ -40,7 +41,9 @@ btnBuscar.addEventListener("click", async () => {
 })
 
 //Serve para fechar a tela no clique do botao fechar.
-document.getElementById("btnFechar").addEventListener("click", () => {
+btnFechar.addEventListener("click", () => {
   window.electronAPI.fecharEmulaCancelarCli()
-  window.close()
+  setTimeout(() => {
+    window.close()
+  }, 50)
 })
