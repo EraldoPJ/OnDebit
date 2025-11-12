@@ -210,39 +210,40 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
 })
 
 // Busca produtos com filtros opcionais dinâmicos
-ipcMain.handle("buscar-produtos", async (event, filtros) => {
+ipcMain.handle("buscar-produtos", async (event, filtrosProd) => {
   try {
     const db = require("./backend/db.js")
 
     // Monta a query base
-    let queryProdutos = "SELECT * FROM produtos produtos WHERE 1=1"
+    let queryProdutos = "SELECT * FROM produtos WHERE 1=1"
     const params = []
 
     // Se tiver nome informado, adiciona na query
-    if (filtros.id && filtros.id.trim() !== "") {
+    if (filtrosProd.id && filtrosProd.id.trim() !== "") {
       queryProdutos += " AND produtos.id_prod LIKE ?"
-      params.push(`%${filtros.id}%`)
+      params.push(`%${filtrosProd.id}%`)
     }
 
     // Se tiver telefone informado, adiciona na query
-    if (filtros.situacao && filtros.situacao.trim() !== "") {
+    if (filtrosProd.situacao && filtrosProd.situacao.trim() !== "") {
       queryProdutos += " AND produtos.sit_prod LIKE ?"
-      params.push(`%${filtros.situacao}%`)
+      params.push(`%${filtrosProd.situacao}%`)
     }
 
     // Se tiver nome informado, adiciona na query
-    if (filtros.nome && filtros.nome.trim() !== "") {
+    if (filtrosProd.nome && filtrosProd.nome.trim() !== "") {
       queryProdutos += " AND produtos.nome_prod LIKE ?"
-      params.push(`%${filtros.nome}%`)
+      params.push(`%${filtrosProd.nome}%`)
     }
 
     // Prepara e executa a consulta
     const stmt = db.prepare(queryProdutos)
     const produtos = stmt.all(...params)
 
+    console.log("Produtos retornados:", produtos.length)
     return produtos
   } catch (erro) {
-    console.error("Erro ao buscar clientes:", erro)
+    console.error("Erro ao buscar produtos:", erro)
     return []
   }
 })

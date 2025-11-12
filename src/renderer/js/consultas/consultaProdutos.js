@@ -14,6 +14,7 @@ btnBuscar.addEventListener("click", async () => {
   const situacao = filtroSituacao.value.trim()
   const nome = filtroNome.value.trim()
 
+  console.log("consultaProdutos: enviando filtros:", { id, situacao, nome })
   // Envia os filtros como um objeto para o backend
   const produtos = await window.electronAPI.buscarProdutos({
     id,
@@ -21,12 +22,14 @@ btnBuscar.addEventListener("click", async () => {
     nome,
   })
 
+  console.log("consultaProdutos: produtos retornados:", produtos)
+
   tabela.innerHTML = ""
   produtos.forEach((prod) => {
     const row = tabela.insertRow()
     row.insertCell(0).textContent = prod.id_prod
-    row.insertCell(2).textContent = prod.sit_prod
-    row.insertCell(1).textContent = prod.nome_prod
+    row.insertCell(1).textContent = prod.sit_prod
+    row.insertCell(2).textContent = prod.nome_prod
     row.insertCell(3).textContent = prod.preco_prod
     row.insertCell(4).textContent = prod.obs_prod || ""
 
@@ -35,7 +38,9 @@ btnBuscar.addEventListener("click", async () => {
       // Envia o cliente selecionado para o main.js
       window.electronAPI.selecionarProduto(prod)
       // Fecha a janela de consulta
-      window.close()
+      setTimeout(() => {
+        window.close()
+      }, 50)
     })
   })
 })
