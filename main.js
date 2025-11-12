@@ -170,6 +170,24 @@ ipcMain.handle("excluir-cliente", async (event, cliente) => {
   }
 })
 
+//handle para fazer a exclusao das informacoes do DB.
+ipcMain.handle("excluir-produto", async (event, produto) => {
+  try {
+    const stmt = db.prepare(`
+      DELETE FROM produtos WHERE id_prod = ?
+    `)
+
+    stmt.run(produto.id)
+
+    return {
+      sucesso: true,
+      mensagem: "Produto ID: " + produto.id + " excluído com sucesso!",
+    }
+  } catch (erro) {
+    console.error("Erro ao excluir produto:", erro)
+    return { sucesso: false, mensagem: "Erro ao excluir produto." }
+  }
+})
 //---------------------------------------------- FILTROS DE BUSCA NO BANCO DE DADOS ----------------------------------------------//
 // Busca clientes com filtros opcionais dinâmicos
 ipcMain.handle("buscar-clientes", async (event, filtros) => {
@@ -240,7 +258,6 @@ ipcMain.handle("buscar-produtos", async (event, filtrosProd) => {
     const stmt = db.prepare(queryProdutos)
     const produtos = stmt.all(...params)
 
-    console.log("Produtos retornados:", produtos.length)
     return produtos
   } catch (erro) {
     console.error("Erro ao buscar produtos:", erro)

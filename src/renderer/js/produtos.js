@@ -53,19 +53,16 @@ btnEditar.addEventListener("click", async () => {
 // Evento de clique no botão "Excluir"
 btnExcluir.addEventListener("click", async () => {
   if (id.value === "") {
-    alert("Nenhum produto carregado em tela!!!")
+    alert("Nenhum produto carregado em tela!")
   } else {
     const desejaExcluir = confirm(
       "Deseja excluir o produto ID: " + id.value + "?"
     )
 
-    if (desejaExcluir && situacao.value === "I") {
-      const excluirProduto = {
+    if (desejaExcluir) {
+      excluirProduto = {
         id: id.value, //valor do campo ID
         situacao: situacao.value, // valor do campo nome
-        nome: nome.value, // valor do campo telefone
-        preco: preco.value, // valor do campo email
-        observacao: observacao.value, // valor do campo observação
       }
 
       const resultadoExcluirProduto = await window.electronAPI.excluirProduto(
