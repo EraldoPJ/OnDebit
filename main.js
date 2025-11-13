@@ -150,6 +150,28 @@ ipcMain.handle("editar-cliente", async (event, cliente) => {
   }
 })
 
+//handle para fazer a edicao de informacao no banco.
+ipcMain.handle("editar-produto", async (event, produto) => {
+  try {
+    const stmt = db.prepare(`
+      UPDATE produtos SET sit_prod = ?, nome_prod = ?, preco_prod = ?, obs_prod = ? WHERE id_prod = ?
+    `)
+
+    stmt.run(
+      produto.situacao,
+      produto.nome,
+      produto.preco,
+      produto.observacao,
+      produto.id
+    )
+
+    return { sucesso: true, mensagem: "Produto editado com sucesso!" }
+  } catch (erro) {
+    console.error("Erro ao editar produto:", erro)
+    return { sucesso: false, mensagem: "Erro ao editar produto." }
+  }
+})
+
 //---------------------------------------------- EXCLUSAO NO BANCO DE DADOS ----------------------------------------------//
 //handle para fazer a exclusao das informacoes do DB.
 ipcMain.handle("excluir-cliente", async (event, cliente) => {
