@@ -28,7 +28,13 @@ btnBuscar.addEventListener("click", async () => {
   produtos.forEach((prod) => {
     const row = tabela.insertRow()
     row.insertCell(0).textContent = prod.id_prod
-    row.insertCell(1).textContent = prod.sit_prod
+    let situacao
+    if (prod.sit_prod === "I") {
+      situacao = "Inativo"
+    } else if (prod.sit_prod === "A") {
+      situacao = "Ativo"
+    }
+    row.insertCell(1).textContent = situacao
     row.insertCell(2).textContent = prod.nome_prod
     row.insertCell(3).textContent = prod.preco_prod
     row.insertCell(4).textContent = prod.obs_prod || ""

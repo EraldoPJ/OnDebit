@@ -243,7 +243,10 @@ ipcMain.handle("buscar-produtos", async (event, filtrosProd) => {
     }
 
     // Se tiver telefone informado, adiciona na query
-    if (filtrosProd.situacao && filtrosProd.situacao.trim() !== "") {
+    if (
+      (filtrosProd.situacao && filtrosProd.situacao.trim() === "A") ||
+      (filtrosProd.situacao && filtrosProd.situacao.trim() === "I")
+    ) {
       queryProdutos += " AND produtos.sit_prod LIKE ?"
       params.push(`%${filtrosProd.situacao}%`)
     }
