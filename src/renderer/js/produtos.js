@@ -54,6 +54,8 @@ btnEditar.addEventListener("click", async () => {
 btnExcluir.addEventListener("click", async () => {
   if (id.value === "") {
     alert("Nenhum produto carregado em tela!")
+  } else if (situacao.value === "I") {
+    alert("Produto inativo. Impossível excluir!")
   } else {
     const desejaExcluir = confirm(
       "Deseja excluir o produto ID: " + id.value + "?"
@@ -129,6 +131,20 @@ btnConfirmar.addEventListener("click", async () => {
       } else {
         alert(resultadoInclusao.mensagem) // Mostra mensagem de erro (vinda do main.js)
       }
+
+      //Limpa os campos
+      id.value = ""
+      situacao.value = "A"
+      nome.value = ""
+      preco.value = ""
+      observacao.value = ""
+
+      //Controle de botoes
+      btnNovo.disabled = false
+      btnEditar.disabled = true
+      btnConfirmar.disabled = true
+      btnCancelar.disabled = true
+      btnPesquisar.disabled = false
     } else if (controleEdicao === "E") {
       const edicaoProduto = {
         id: id.value, // passa o id para update
@@ -148,6 +164,14 @@ btnConfirmar.addEventListener("click", async () => {
       } else {
         alert(resultadoEdicao.mensagem) // Mostra mensagem de erro (vinda do main.js)
       }
+
+      //Controle de botoes
+      btnNovo.disabled = true
+      btnEditar.disabled = false
+      btnExcluir.disabled = false
+      btnConfirmar.disabled = true
+      btnCancelar.disabled = true
+      btnPesquisar.disabled = false
     }
 
     //Desabilita inputs
@@ -155,20 +179,6 @@ btnConfirmar.addEventListener("click", async () => {
     nome.disabled = true
     preco.disabled = true
     observacao.disabled = true
-
-    //Limpa os campos
-    id.value = ""
-    situacao.value = "A"
-    nome.value = ""
-    preco.value = ""
-    observacao.value = ""
-
-    //Controle de botoes
-    btnNovo.disabled = false
-    btnEditar.disabled = true
-    btnConfirmar.disabled = true
-    btnCancelar.disabled = true
-    btnPesquisar.disabled = false
 
     controleInclusao = ""
     controleEdicao = ""
