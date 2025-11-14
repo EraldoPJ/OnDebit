@@ -132,6 +132,20 @@ btnConfirmar.addEventListener("click", async () => {
       } else {
         alert(resultadoInclusao.mensagem) // Mostra mensagem de erro (vinda do main.js)
       }
+
+      //Limpa os campos
+      id.value = ""
+      nome.value = ""
+      telefone.value = ""
+      email.value = ""
+      observacao.value = ""
+
+      //Controle de botoes
+      btnNovo.disabled = false
+      btnEditar.disabled = true
+      btnConfirmar.disabled = true
+      btnCancelar.disabled = true
+      btnPesquisar.disabled = false
     } else if (controleEdicao === "E") {
       const edicaoCliente = {
         id: id.value, // passa o id para update
@@ -151,6 +165,14 @@ btnConfirmar.addEventListener("click", async () => {
       } else {
         alert(resultadoEdicao.mensagem) // Mostra mensagem de erro (vinda do main.js)
       }
+
+      //Controle de botoes
+      btnNovo.disabled = true
+      btnEditar.disabled = false
+      btnExcluir.disabled = false
+      btnConfirmar.disabled = true
+      btnCancelar.disabled = true
+      btnPesquisar.disabled = false
     }
 
     //Desabilita inputs
@@ -158,20 +180,6 @@ btnConfirmar.addEventListener("click", async () => {
     telefone.disabled = true
     email.disabled = true
     observacao.disabled = true
-
-    //Limpa os campos
-    id.value = ""
-    nome.value = ""
-    telefone.value = ""
-    email.value = ""
-    observacao.value = ""
-
-    //Controle de botoes
-    btnNovo.disabled = false
-    btnEditar.disabled = true
-    btnConfirmar.disabled = true
-    btnCancelar.disabled = true
-    btnPesquisar.disabled = false
 
     controleInclusao = ""
     controleEdicao = ""
