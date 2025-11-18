@@ -7,6 +7,10 @@
   border-radius: 5px;
   width: 70px;
 }
+#situacao {
+  border-radius: 5px;
+  width: 70px;
+}
 #nome {
   border-radius: 5px;
   width: 300px;
@@ -23,6 +27,7 @@
   border-radius: 5px;
   width: 300px;
 }
+
 
 /*Feito para alterar propriedades e espacamentos*/
 #rodapeCliente {

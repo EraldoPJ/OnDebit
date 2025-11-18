@@ -22,8 +22,6 @@ btnBuscar.addEventListener("click", async () => {
     nome,
   })
 
-  console.log("consultaProdutos: produtos retornados:", produtos)
-
   tabela.innerHTML = ""
   produtos.forEach((prod) => {
     const row = tabela.insertRow()

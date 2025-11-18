@@ -20,8 +20,15 @@
     <!-- Formulário de CRUD -->
     <form id="formCliente" autocomplete="off">
       <div>
-        <label for="id">ID:</label><br />
+        <label for="id">ID:</label><br>
         <input type="text" id="id" name="id" disabled />
+      </div>
+      <div>
+        <label for="situacao">Situação:</label><br>
+        <select name="situacao" id="situacao" disabled>
+          <option value="A">Ativo</option>
+          <option value="I">Inativo</option>
+        </select>
       </div>
       <div>
         <label for="nome">Nome:</label><br />

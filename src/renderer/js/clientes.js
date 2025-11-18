@@ -7,6 +7,7 @@ const btnCancelar = document.getElementById("btnCancelar")
 const btnPesquisar = document.getElementById("btnPesquisar")
 
 const id = document.getElementById("id")
+const situacao = document.getElementById("situacao")
 const nome = document.getElementById("nome")
 const telefone = document.getElementById("telefone")
 const email = document.getElementById("email")
@@ -16,6 +17,7 @@ const observacao = document.getElementById("observacao")
 btnNovo.addEventListener("click", () => {
   controleInclusao = "I"
 
+  situacao.disabled = true
   nome.disabled = false
   telefone.disabled = false
   email.disabled = false
@@ -34,6 +36,7 @@ btnNovo.addEventListener("click", () => {
 btnEditar.addEventListener("click", async () => {
   controleEdicao = "E"
 
+  situacao.disabled = false
   nome.disabled = false
   telefone.disabled = false
   email.disabled = false
@@ -54,6 +57,8 @@ btnEditar.addEventListener("click", async () => {
 btnExcluir.addEventListener("click", async () => {
   if (id.value === "") {
     alert("Nenhum cliente carregado em tela!!!")
+  } else if (situacao.value === "I") {
+    alert("Cliente inativo. Impossível excluir!")
   } else {
     const desejaExcluir = confirm(
       "Deseja excluir o cliente ID: " + id.value + "?"
@@ -80,6 +85,7 @@ btnExcluir.addEventListener("click", async () => {
       }
 
       //Desabilita inputs
+      situacao.disabled = true
       nome.disabled = true
       telefone.disabled = true
       email.disabled = true
@@ -87,6 +93,7 @@ btnExcluir.addEventListener("click", async () => {
 
       //Limpa os campos
       id.value = ""
+      situacao.value = "A"
       nome.value = ""
       telefone.value = ""
       email.value = ""
@@ -116,6 +123,7 @@ btnConfirmar.addEventListener("click", async () => {
   } else {
     if (controleInclusao === "I") {
       const inclusaoCliente = {
+        situacao: situacao.value, // valor do campo situacao
         nome: nome.value, // valor do campo nome
         telefone: telefone.value, // valor do campo telefone
         email: email.value, // valor do campo email
@@ -135,6 +143,7 @@ btnConfirmar.addEventListener("click", async () => {
 
       //Limpa os campos
       id.value = ""
+      situacao.value = "A"
       nome.value = ""
       telefone.value = ""
       email.value = ""
@@ -149,6 +158,7 @@ btnConfirmar.addEventListener("click", async () => {
     } else if (controleEdicao === "E") {
       const edicaoCliente = {
         id: id.value, // passa o id para update
+        situacao: situacao.value,
         nome: nome.value, // valor do campo nome
         telefone: telefone.value, // valor do campo telefone
         email: email.value, // valor do campo email
@@ -176,6 +186,7 @@ btnConfirmar.addEventListener("click", async () => {
     }
 
     //Desabilita inputs
+    situacao.disabled = true
     nome.disabled = true
     telefone.disabled = true
     email.disabled = true
@@ -188,6 +199,7 @@ btnConfirmar.addEventListener("click", async () => {
 
 // Evento de clique no botão "Cancelar"
 btnCancelar.addEventListener("click", () => {
+  situacao.disabled = true
   nome.disabled = true
   telefone.disabled = true
   email.disabled = true
@@ -195,6 +207,7 @@ btnCancelar.addEventListener("click", () => {
 
   // limpa os campos
   id.value = ""
+  situacao.value = "A"
   nome.value = ""
   telefone.value = ""
   email.value = ""
@@ -231,6 +244,7 @@ btnPesquisar.addEventListener("click", () => {
 // o cliente é enviado pra cá e preenche os campos:
 window.electronAPI.clienteSelecionado((cliente) => {
   id.value = cliente.id_cli
+  situacao.value = cliente.sit_cli
   nome.value = cliente.nome_cli
   telefone.value = cliente.telefone_cli
   email.value = cliente.email_cli

@@ -94,11 +94,17 @@ ipcMain.on("abrir-consulta-produtos", () => {
 ipcMain.handle("incluir-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
-      INSERT INTO clientes (nome_cli, telefone_cli, email_cli, obs_cli, data_cad)
-      VALUES (?, ?, ?, ?, CURRENT_DATE)
+      INSERT INTO clientes (sit_cli, nome_cli, telefone_cli, email_cli, obs_cli, data_cad)
+      VALUES (?, ?, ?, ?, ?, CURRENT_DATE)
       `)
 
-    stmt.run(cliente.nome, cliente.telefone, cliente.email, cliente.observacao)
+    stmt.run(
+      cliente.situacao,
+      cliente.nome,
+      cliente.telefone,
+      cliente.email,
+      cliente.observacao
+    )
 
     return { sucesso: true, mensagem: "Cliente incluido com sucesso!" }
   } catch (erro) {
@@ -132,10 +138,11 @@ ipcMain.handle("incluir-produto", async (event, produto) => {
 ipcMain.handle("editar-cliente", async (event, cliente) => {
   try {
     const stmt = db.prepare(`
-      UPDATE clientes SET nome_cli = ?, telefone_cli = ?, email_cli = ?, obs_cli = ? WHERE id_cli = ?
+      UPDATE clientes SET sit_cli = ?, nome_cli = ?, telefone_cli = ?, email_cli = ?, obs_cli = ? WHERE id_cli = ?
     `)
 
     stmt.run(
+      cliente.situacao,
       cliente.nome,
       cliente.telefone,
       cliente.email,
@@ -217,13 +224,24 @@ ipcMain.handle("buscar-clientes", async (event, filtros) => {
     const db = require("./backend/db.js")
 
     // Monta a query base
-    let queryClientes = "SELECT * FROM clientes clientes WHERE 1=1"
+    let queryClientes = "SELECT * FROM clientes WHERE 1=1"
     const params = []
 
     // Se tiver nome informado, adiciona na query
     if (filtros.id && filtros.id.trim() !== "") {
       queryClientes += " AND clientes.id_cli LIKE ?"
       params.push(`%${filtros.id}%`)
+    }
+
+    // Se tiver nome informado, adiciona na query
+    if (
+      (filtros.situacao && filtros.situacao.trim() === "A") ||
+      (filtros.situacao && filtros.situacao.trim() === "I")
+    ) {
+      if (filtros.situacao && filtros.situacao.trim() !== "") {
+        queryClientes += " AND clientes.sit_cli LIKE ?"
+        params.push(`%${filtros.situacao}%`)
+      }
     }
 
     // Se tiver nome informado, adiciona na query
