@@ -17,43 +17,54 @@
   </head>
   <body>
     <h1 id="title">Cadastro de produtos</h1>
-    <form id="formProduto" autocomplete="off">
-      <div>
-        <label for="id">ID:</label><br />
-        <input type="text" id="id" name="id" disabled />
-      </div>
-      <div>
-        <label for="situacao">Situação:</label><br />
-        <select name="situacao" id="situacao" disabled>
-          <option value="A">Ativo</option>
-          <option value="I">Inativo</option>
-        </select>
-      </div>
-      <div>
-        <label for="nome">Nome:</label><br />
-        <input type="text" id="nome" name="nome" disabled />
-      </div>
-      <div>
-        <label for="preco">Preço:</label><br />
-        <input
-          type="number"
-          id="preco"
-          name="preco"
-          placeholder="R$0,00"
-          disabled
+    <div id="containerProduto">
+      <form id="formProduto" autocomplete="off">
+        <div>
+          <label for="id">ID:</label><br />
+          <input type="text" id="id" name="id" disabled />
+        </div>
+        <div>
+          <label for="situacao">Situação:</label><br />
+          <select name="situacao" id="situacao" disabled>
+            <option value="A">Ativo</option>
+            <option value="I">Inativo</option>
+          </select>
+        </div>
+        <div>
+          <label for="nome">Nome:</label><br />
+          <input type="text" id="nome" name="nome" disabled />
+        </div>
+        <div>
+          <label for="preco">Preço:</label><br />
+          <input
+            type="number"
+            id="preco"
+            name="preco"
+            placeholder="R$0,00"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="observacao">Observação:</label><br />
+          <textarea
+            id="observacao"
+            name="observacao"
+            rows="4"
+            cols="40"
+            disabled
+          ></textarea>
+        </div>
+      </form>
+      <form id="formImgProduto" autocomplete="off">
+        <img
+          id="imgProduto"
+          src=""
+          alt="Imagem do produto não encontrada"
+          width="150"
+          height="150"
         />
-      </div>
-      <div>
-        <label for="observacao">Observação:</label><br />
-        <textarea
-          id="observacao"
-          name="observacao"
-          rows="4"
-          cols="40"
-          disabled
-        ></textarea>
-      </div>
-    </form>
+      </form>
+    </div>
   </body>
   <footer id="rodapeProduto">
     <div id="botoesProduto">

@@ -1,4 +1,14 @@
+#containerProduto {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
 #formProduto {
+  padding: 10px 0px 10px 50px;
+}
+
+#formImgProduto {
   padding: 10px 0px 10px 50px;
 }
 

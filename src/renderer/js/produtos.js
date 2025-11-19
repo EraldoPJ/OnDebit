@@ -12,6 +12,11 @@ const nome = document.getElementById("nome")
 const preco = document.getElementById("preco")
 const observacao = document.getElementById("observacao")
 
+//Vinculo com a imagem do produto no html
+const imgProduto = document.getElementById("imgProduto")
+
+carregarImgProduto(id.value)
+
 // Evento de clique no botão "Novo"
 btnNovo.addEventListener("click", () => {
   controleInclusao = "I"
@@ -234,9 +239,24 @@ window.electronAPI.produtoSelecionado((produto) => {
   nome.value = produto.nome_prod
   preco.value = produto.preco_prod
   observacao.value = produto.obs_prod || ""
+
+  carregarImgProduto(produto.id_prod)
 })
 
 //Ao clicar em fechar, emula o clique do botao cancelar.
 window.electronAPI.cancelarProduto(() => {
   btnCancelar.click()
 })
+
+/* ------------------- Controle da Imagem ------------------- */
+function carregarImgProduto(idProduto) {
+  //Acento grave para infomar caminho e parâmetro da função
+  const caminho = `../../../assets/imagesProd/${idProduto}.jpeg`
+
+  //Feito dessa forma para caso obter erro, carregar a imagem padrao
+  imgProduto.onerror = () => {
+    imgProduto.src = "../../../assets/imagesProd/sem_img.jpeg"
+  }
+
+  imgProduto.src = caminho
+}
