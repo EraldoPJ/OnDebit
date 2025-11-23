@@ -1,0 +1,39 @@
+#tabelaProd {
+  padding: 10px 0px 10px 50px;
+  border: solid red 2px;
+}
+
+#titleTabelaProd {
+  display: flex;
+  justify-content: flex-start;
+}
+
+#headProd {
+  display: flex;
+  justify-content: flex-end;
+
+  background-color: rgb(60, 60, 60);
+  font-weight: bold;
+  text-align: left;
+}
+
+#headProd th {
+  padding: 8px;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+}
+
+#footProd {
+  display: flex;
+  justify-content: flex-end;
+
+  background-color: rgb(60, 60, 60);
+  font-weight: bold;
+  text-align: left;
+}
+
+#footProd td {
+  padding: 4px 8px 4px 8px;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+}
