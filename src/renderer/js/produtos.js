@@ -232,7 +232,7 @@ btnPesquisar.addEventListener("click", () => {
 /* ------------------- RECEBER CLIENTE SELECIONADO ------------------- */
 
 // Quando o usuário der duplo clique na tela de consulta,
-// o cliente é enviado pra cá e preenche os campos:
+// o produto é enviado pra cá e preenche os campos:
 window.electronAPI.produtoSelecionado((produto) => {
   id.value = produto.id_prod
   situacao.value = produto.sit_prod

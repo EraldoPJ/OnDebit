@@ -18,37 +18,49 @@
   <body>
     <h1 id="title">Lançamento de pedidos</h1>
 
-    <table id="tabelaProd">
-      <caption id="titleTabelaProd">
-        Produtos do Pedido:
-      </caption>
-      <thead id="headProd">
-        <tr>
-          <th scope="col">Cód. Prod.</th>
-          <th scope="col">Nome Prod.</th>
-          <th scope="col">Quantidade</th>
-          <th scope="col">Preço</th>
-          <th scope="col">Valor</th>
-          <th scope="col">Observação</th>
-          <th scope="col">Age</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-      <tfoot id="footProd">
-        <tr>
-          <th scope="col">Quant. Total:</th>
-          <td>0</td>
-          <th scope="col">Valor. Total:</th>
-          <td>0,00</td>
-        </tr>
-      </tfoot>
-    </table>
+    <div id="containerPedido">
+      <form id="formPedido" autocomplete="off">
+        <div>
+          <label for="id">ID:</label><br />
+          <input type="text" id="id" name="id" disabled />
+        </div>
+        <div>
+          <label for="situacao">Situação:</label><br />
+          <select name="situacao" id="situacao" disabled>
+            <option value="A">Ativo</option>
+            <option value="I">Inativo</option>
+          </select>
+        </div>
+        <div>
+          <label for="idCliente">Cliente:</label><br />
+          <input type="text" id="idCliente" name="idCliente" disabled />
+          <input type="text" id="nomeCliente" name="nomeCliente" disabled />
+          <button type="button" id="btnPesquisarCliente">Pesquisar</button>
+        </div>
+        <div>
+          <label for="observacao">Observação:</label><br />
+          <textarea
+            id="observacao"
+            name="observacao"
+            rows="4"
+            cols="40"
+            disabled
+          ></textarea>
+        </div>
+      </form>
+    </div>
   </body>
-  <footer>
-    <div>
-      <a id="voltar" href="../../../index.html"
-        ><ion-icon name="arrow-back-circle-outline"></ion-icon
-      ></a>
+  <footer id="rodapeLancPedido">
+    <div id="botoesLancPedido">
+      <button type="button" id="btnVoltar">
+        <a href="../../../index.html">Voltar</a>
+      </button>
+      <button type="button" id="btnNovo">Novo</button>
+      <button type="button" id="btnEditar" disabled>Editar</button>
+      <button type="button" id="btnExcluir" disabled>Excluir</button>
+      <button type="button" id="btnConfirmar" disabled>Confirmar</button>
+      <button type="button" id="btnCancelar" disabled>Cancelar</button>
+      <button type="button" id="btnPesquisar">Pesquisar</button>
     </div>
   </footer>
 
