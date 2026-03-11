@@ -57,3 +57,11 @@ btnFechar.addEventListener("click", () => {
     window.close()
   }, 50)
 })
+
+//Serve para fechar a tela no clique do botao fechar.
+btnFechar.addEventListener("click", () => {
+  window.electronAPI.fecharEmulaCancelarCliPed()
+  setTimeout(() => {
+    window.close()
+  }, 50)
+})

@@ -14,7 +14,7 @@
   border-radius: 5px;
   width: 70px;
 }
-#nomeCliente {
+#idNomeCliente {
   border-radius: 5px;
   width: 300px;
 }
@@ -24,43 +24,13 @@
 }
 
 /*Feito para alterar propriedades e espacamentos da tabela de produtos do pedido*/
-#tabelaProd {
-  padding: 10px 0px 10px 50px;
+#tabelaProdutos {
+  padding: 10px 50px 10px 50px;
 }
 
-#titleTabelaProd {
-  display: flex;
-  justify-content: flex-start;
-}
-
-#headProd {
-  display: flex;
-  justify-content: flex-end;
-
-  background-color: rgb(60, 60, 60);
-  font-weight: bold;
-  text-align: left;
-}
-
-#headProd th {
-  padding: 8px;
-  border-bottom: 2px solid black;
-  border-right: 2px solid black;
-}
-
-#footProd {
-  display: flex;
-  justify-content: flex-end;
-
-  background-color: rgb(60, 60, 60);
-  font-weight: bold;
-  text-align: left;
-}
-
-#footProd td {
-  padding: 4px 8px 4px 8px;
-  border-bottom: 2px solid black;
-  border-right: 2px solid black;
+/*Feito para alterar propriedades e espacamentos dos botões que editam a tabela de produtos do pedido*/
+#botoesControleProd {
+  padding: 10px 50px 10px 0px;
 }
 
 /*Feito para alterar propriedades e espacamentos dos botões da tela de lançamento de pedidos*/
@@ -68,7 +38,7 @@
   display: flex;
   justify-content: flex-start;
 
-  padding-left: 50px;
+  padding: 10px 50px 10px 50px;
   gap: 10px;
 }
 
@@ -91,6 +61,17 @@
   color: white;
   background: linear-gradient(100deg, gray, black);
 }
+
+#btnAdicionarProduto {
+  width: 70px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  padding: 5px;
+
+  color: white;
+  background: linear-gradient(100deg, rgb(129, 138, 117), black);
+}
+
 #btnEditar {
   border: 2px solid grey;
   border-radius: 10px;
@@ -107,6 +88,17 @@
   color: white;
   background: linear-gradient(100deg, gray, black);
 }
+
+#btnExcluirProduto {
+  width: 70px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  padding: 5px;
+
+  color: white;
+  background: linear-gradient(100deg, red, black);
+}
+
 #btnConfirmar {
   border: 2px solid grey;
   border-radius: 10px;
@@ -132,13 +124,25 @@
   background: linear-gradient(100deg, rgba(0, 0, 255, 0.698), black);
 }
 
+#btnPesquisarCliente {
+  border: 2px solid grey;
+  border-radius: 10px;
+  padding: 5px;
+
+  color: white;
+  background: linear-gradient(100deg, rgba(0, 0, 255, 0.698), black);
+}
+
 #btnVoltar:hover,
 #btnNovo:hover,
 #btnEditar:hover,
 #btnExcluir:hover,
 #btnConfirmar:hover,
 #btnCancelar:hover,
-#btnPesquisar:hover {
+#btnPesquisar:hover,
+#btnExcluirProduto:hover,
+#btnAdicionarProduto:hover,
+#btnPesquisarCliente:hover {
   opacity: 0.7;
 }
 
@@ -148,7 +152,10 @@ button:disabled,
 #btnEditar:disabled,
 #btnExcluir:disabled,
 #btnConfirmar:disabled,
-#btnCancelar:disabled {
+#btnCancelar:disabled,
+#btnExcluirProduto:disabled,
+#btnAdicionarProduto:disabled,
+#btnPesquisarCliente:disabled {
   opacity: 0.5; /* deixa o botão “apagado” */
   cursor: not-allowed; /* muda o cursor para indicar que está bloqueado */
   filter: grayscale(50%); /* opcional: dá um tom acinzentado */

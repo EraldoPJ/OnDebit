@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/styleLancamentoPedido.css" />
+    <link rel="stylesheet" href="../css/tabulator.min.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,8 +35,10 @@
         <div>
           <label for="idCliente">Cliente:</label><br />
           <input type="text" id="idCliente" name="idCliente" disabled />
-          <input type="text" id="nomeCliente" name="nomeCliente" disabled />
-          <button type="button" id="btnPesquisarCliente">Pesquisar</button>
+          <input type="text" id="idNomeCliente" name="idNomeCliente" disabled />
+          <button type="button" id="btnPesquisarCliente" disabled>
+            <ion-icon name="search"></ion-icon>
+          </button>
         </div>
         <div>
           <label for="observacao">Observação:</label><br />
@@ -47,8 +50,33 @@
             disabled
           ></textarea>
         </div>
+        <div id="TabelaItensPedido">
+          <!-- Tabela de itens do pedido carregados -->
+          <table border="1" width="100%" style="margin-top: 15px">
+            <thead>
+              <tr>
+                <th>ID_Prod</th>
+                <th>Quantidade.</th>
+                <th>Preço</th>
+                <th>Valor</th>
+                <th>Observação</th>
+              </tr>
+            </thead>
+            <tbody id="ResultadoTabelaItensPedido">
+              <!-- resultados vão aparecer aqui -->
+            </tbody>
+          </table>
+        </div>
+        <div id="botoesControleProd">
+          <button id="btnAdicionarProduto" disabled>
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </button>
+          <button id="btnExcluirProduto" disabled>
+            <ion-icon name="remove-circle-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
       </form>
-    </div>
   </body>
   <footer id="rodapeLancPedido">
     <div id="botoesLancPedido">
@@ -65,4 +93,5 @@
   </footer>
 
   <script type="module" src="../../../assets/icons/ionicons.js"></script>
+  <script type="module" src="../js/lancamentoPedidos.js"></script>
 </html>
