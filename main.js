@@ -57,7 +57,10 @@ ipcMain.on("abrir-consulta-clientes", () => {
   })
 
   consultaCli.loadFile(
-    path.join(__dirname, "./src/renderer/telas/consultas/consultaClientes.html")
+    path.join(
+      __dirname,
+      "./src/renderer/telas/consultas/consultaClientes.html",
+    ),
   )
 
   consultaCli.on("closed", () => {
@@ -81,7 +84,10 @@ ipcMain.on("abrir-consulta-produtos", () => {
   })
 
   consultaProd.loadFile(
-    path.join(__dirname, "./src/renderer/telas/consultas/consultaProdutos.html")
+    path.join(
+      __dirname,
+      "./src/renderer/telas/consultas/consultaProdutos.html",
+    ),
   )
 
   consultaProd.on("closed", () => {
@@ -103,7 +109,7 @@ ipcMain.handle("incluir-cliente", async (event, cliente) => {
       cliente.nome,
       cliente.telefone,
       cliente.email,
-      cliente.observacao
+      cliente.observacao,
     )
 
     return { sucesso: true, mensagem: "Cliente incluido com sucesso!" }
@@ -147,7 +153,7 @@ ipcMain.handle("editar-cliente", async (event, cliente) => {
       cliente.telefone,
       cliente.email,
       cliente.observacao,
-      cliente.id
+      cliente.id,
     )
 
     return { sucesso: true, mensagem: "Cliente editado com sucesso!" }
@@ -169,7 +175,7 @@ ipcMain.handle("editar-produto", async (event, produto) => {
       produto.nome,
       produto.preco,
       produto.observacao,
-      produto.id
+      produto.id,
     )
 
     return { sucesso: true, mensagem: "Produto editado com sucesso!" }
@@ -308,7 +314,7 @@ ipcMain.handle("buscar-produtos", async (event, filtrosProd) => {
   }
 })
 
-//---------------------------------------------- RECEBER INFORMACAO ----------------------------------------------//
+//---------------------------------------------- RECEBER INFORMACAO TELAS DE PRODUTO E CLIENTE ----------------------------------------------//
 // Recebe o cliente selecionado e envia pra janela principal
 ipcMain.on("selecionar-cliente", (event, cliente) => {
   janelaPrincipal.webContents.send("carregar-cliente", cliente)
@@ -329,5 +335,22 @@ ipcMain.on("fechar-emula-cancelar-prod", () => {
   if (consultaProd && !consultaProd.isDestroyed()) {
     // Envia um evento pra janela principal acionar o botão cancelar
     janelaPrincipal.webContents.send("emula-cancelar-prod")
+  }
+})
+
+//----------------------------RECEBER INFORMACAO TELAS DE PEDIDO--------------------------------//
+
+
+ipcMain.on("fechar-emula-cancelar-cli-ped", () => {
+   if (consultaCli && !consultaCli.isDestroyed()) {
+     // Envia um evento pra janela principal acionar o botão cancelar
+     janelaPrincipal.webContents.send("emula-cancelar-cli-ped")
+   }
+})
+
+ipcMain.on("fechar-emula-cancelar-item-ped", () => {
+  if (consultaProd && !consultaProd.isDestroyed()) {
+    // Envia um evento pra janela principal acionar o botão cancelar
+    janelaPrincipal.webContents.send("emula-cancelar-item-ped")
   }
 })

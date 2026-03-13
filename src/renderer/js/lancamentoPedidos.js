@@ -38,29 +38,11 @@ btnNovo.addEventListener("click", () => {
 //Evento de clique do botao de adicionar produto
 btnAdicionarProduto.addEventListener("click", () => {
   window.electronAPI.abrirConsultaProdutos()
-
-  /*btnNovo.disabled = true
-  btnEditar.disabled = false
-  btnExcluir.disabled = false
-  btnConfirmar.disabled = true
-  btnCancelar.disabled = false
-
-  controleInclusao = ""
-  controleEdicao = ""*/
 })
 
 //Evento de clique do botao de adicionar cliente
 btnPesquisarCliente.addEventListener("click", () => {
   window.electronAPI.abrirConsultaClientes()
-
-  /*btnNovo.disabled = true
-  btnEditar.disabled = false
-  btnExcluir.disabled = false
-  btnConfirmar.disabled = true
-  btnCancelar.disabled = false
-
-  controleInclusao = ""
-  controleEdicao = ""*/
 })
 
 //Evento de clique do botao pesquisar
@@ -96,7 +78,7 @@ btnCancelar.addEventListener("click", () => {
 })
 
 //Ao clicar em fechar na pesquisa de cliente, emula o clique do botao cancelar.
-window.electronAPI.cancelarCliPedido(() => {
+window.electronAPI.cancelarCliPed(() => {
   btnCancelar.click()
 })
 

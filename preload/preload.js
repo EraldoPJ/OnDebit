@@ -51,13 +51,13 @@ contextBridge.exposeInMainWorld("electronAPI", {
   fecharEmulaCancelarCliPed: () =>
     ipcRenderer.send("fechar-emula-cancelar-cli-ped"),
 
-  cancelarCliPedido: (callback) =>
-    ipcRenderer.on("emula-cancelar-cli-pedido", () => callback()),
+  cancelarCliPed: (callback) =>
+    ipcRenderer.on("emula-cancelar-cli-ped", () => callback()),
 
   //Realiza o fechamento das telas de consulta
   fecharEmulaCancelarItemPed: () =>
     ipcRenderer.send("fechar-emula-cancelar-item-ped"),
 
   cancelarItemPedido: (callback) =>
-    ipcRenderer.on("emula-cancelar-item-pedido", () => callback()),
+    ipcRenderer.on("emula-cancelar-item-ped", () => callback()),
 })
