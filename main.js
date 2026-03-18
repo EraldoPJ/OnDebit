@@ -314,7 +314,49 @@ ipcMain.handle("buscar-produtos", async (event, filtrosProd) => {
   }
 })
 
-//---------------------------------------------- RECEBER INFORMACAO TELAS DE PRODUTO E CLIENTE ----------------------------------------------//
+// Busca pedidos com filtros opcionais dinâmicos 
+/*
+ipcMain.handle("buscar-pedidos", async (event, filtrosPed) => {
+    try {
+    const db = require("./backend/db.js")
+
+    // Monta a query base de pedidos
+    let queryPedidos = "SELECT * FROM pedidos WHERE 1=1"
+    const params = []
+
+    // Se tiver nome informado, adiciona na query
+    if (filtrosPed.id && filtrosPed.id.trim() !== "") {
+      queryProdutos += " AND produtos.id_prod LIKE ?"
+      params.push(`%${filtrosProd.id}%`)
+    }
+
+    // Se tiver telefone informado, adiciona na query
+    if (
+      (filtrosProd.situacao && filtrosProd.situacao.trim() === "A") ||
+      (filtrosProd.situacao && filtrosProd.situacao.trim() === "I")
+    ) {
+      queryProdutos += " AND produtos.sit_prod LIKE ?"
+      params.push(`%${filtrosProd.situacao}%`)
+    }
+
+    // Se tiver nome informado, adiciona na query
+    if (filtrosProd.nome && filtrosProd.nome.trim() !== "") {
+      queryProdutos += " AND produtos.nome_prod LIKE ?"
+      params.push(`%${filtrosProd.nome}%`)
+    }
+
+    // Prepara e executa a consulta
+    const stmt = db.prepare(queryProdutos)
+    const produtos = stmt.all(...params)
+
+    return produtos
+  } catch (erro) {
+    console.error("Erro ao buscar produtos:", erro)
+    return []
+  }
+} */
+
+//---------------------------------------------- RECEBER INFORMACAO TELAS DE PRODUTO, CLIENTE, PEDIDO----------------------------------------------//
 // Recebe o cliente selecionado e envia pra janela principal
 ipcMain.on("selecionar-cliente", (event, cliente) => {
   janelaPrincipal.webContents.send("carregar-cliente", cliente)

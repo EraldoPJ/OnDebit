@@ -46,4 +46,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.on("emula-cancelar-prod", () => callback()),
 
   //Processos de Pedidos----------------------------------------------------------------------------------------------------------------------
+  /*
+  buscarPedidos: (filtrosPed) =>
+    ipcRenderer.invoke("buscar-pedidos", filtrosPed),
+  abrirConsultaPedidos: () => ipcRenderer.send("abrir-consulta-pedidos"), */
 })

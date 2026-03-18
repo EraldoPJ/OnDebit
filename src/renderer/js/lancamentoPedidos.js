@@ -40,15 +40,34 @@ btnNovo.addEventListener("click", () => {
 btnAdicionarProduto.addEventListener("click", () => {
   window.electronAPI.abrirConsultaProdutos()
 })
+//Mesmo metodo para emular o cancelar na tela de cadastro de produtos, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
+window.electronAPI.cancelarProduto(() => {
+  btnCancelar.click()
+})
 
 //Evento de clique do botao de adicionar cliente
 btnPesquisarCliente.addEventListener("click", () => {
   window.electronAPI.abrirConsultaClientes()
 })
 
+//Depois da pesquisa de cliente, faz o retorno das informacoes do cliente.
+window.electronAPI.clienteSelecionado((cliente) => {
+  if (cliente.sit_cli == "A") {
+    idCliente.value = cliente.id_cli
+    idNomeCliente.value = cliente.nome_cli
+  } else if (cliente.sit_cli == "I") {
+    alert("Impossível carregar cliente inativo!")
+  }
+})
+
+//Mesmo metodo para emular o cancelar na tela de cadastro de clientes, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
+window.electronAPI.cancelarCliente(() => {
+  btnCancelar.click()
+})
+
 //Evento de clique do botao pesquisar
 btnPesquisar.addEventListener("click", () => {
-  window.electronAPI.abrirConsultaProdutos()
+  window.electronAPI.abrirConsultaPedidos()
 
   btnNovo.disabled = true
   btnEditar.disabled = false
@@ -69,6 +88,13 @@ btnCancelar.addEventListener("click", () => {
   idNomeCliente.disabled = true
   observacao.disabled = true
 
+  // limpa os campos
+  id.value = ""
+  situacao.value = "A"
+  idCliente.value = ""
+  idNomeCliente.value = ""
+  observacao.value = ""
+
   btnNovo.disabled = false
   btnEditar.disabled = true
   btnConfirmar.disabled = true
@@ -76,14 +102,4 @@ btnCancelar.addEventListener("click", () => {
   btnPesquisarCliente.disabled = true
   btnAdicionarProduto.disabled = true
   btnExcluirProduto.disabled = true
-})
-
-//Mesmo metodo para emular o cancelar na tela de cadastro de clientes, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
-window.electronAPI.cancelarCliente(() => {
-  btnCancelar.click()
-})
-
-//Mesmo metodo para emular o cancelar na tela de cadastro de produtos, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
-window.electronAPI.cancelarProduto(() => {
-  btnCancelar.click()
 })
