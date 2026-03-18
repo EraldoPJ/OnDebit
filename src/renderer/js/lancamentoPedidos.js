@@ -40,10 +40,6 @@ btnNovo.addEventListener("click", () => {
 btnAdicionarProduto.addEventListener("click", () => {
   window.electronAPI.abrirConsultaProdutos()
 })
-//Mesmo metodo para emular o cancelar na tela de cadastro de produtos, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
-window.electronAPI.cancelarProduto(() => {
-  btnCancelar.click()
-})
 
 //Evento de clique do botao de adicionar cliente
 btnPesquisarCliente.addEventListener("click", () => {
@@ -58,11 +54,6 @@ window.electronAPI.clienteSelecionado((cliente) => {
   } else if (cliente.sit_cli == "I") {
     alert("Impossível carregar cliente inativo!")
   }
-})
-
-//Mesmo metodo para emular o cancelar na tela de cadastro de clientes, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
-window.electronAPI.cancelarCliente(() => {
-  btnCancelar.click()
 })
 
 //Evento de clique do botao pesquisar
