@@ -46,18 +46,4 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.on("emula-cancelar-prod", () => callback()),
 
   //Processos de Pedidos----------------------------------------------------------------------------------------------------------------------
-
-  //Realiza o fechamento das telas de consulta
-  fecharEmulaCancelarCliPed: () =>
-    ipcRenderer.send("fechar-emula-cancelar-cli-ped"),
-
-  cancelarCliPed: (callback) =>
-    ipcRenderer.on("emula-cancelar-cli-ped", () => callback()),
-
-  //Realiza o fechamento das telas de consulta
-  fecharEmulaCancelarItemPed: () =>
-    ipcRenderer.send("fechar-emula-cancelar-item-ped"),
-
-  cancelarItemPedido: (callback) =>
-    ipcRenderer.on("emula-cancelar-item-ped", () => callback()),
 })

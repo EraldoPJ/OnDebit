@@ -339,18 +339,3 @@ ipcMain.on("fechar-emula-cancelar-prod", () => {
 })
 
 //----------------------------RECEBER INFORMACAO TELAS DE PEDIDO--------------------------------//
-
-
-ipcMain.on("fechar-emula-cancelar-cli-ped", () => {
-   if (consultaCli && !consultaCli.isDestroyed()) {
-     // Envia um evento pra janela principal acionar o botão cancelar
-     janelaPrincipal.webContents.send("emula-cancelar-cli-ped")
-   }
-})
-
-ipcMain.on("fechar-emula-cancelar-item-ped", () => {
-  if (consultaProd && !consultaProd.isDestroyed()) {
-    // Envia um evento pra janela principal acionar o botão cancelar
-    janelaPrincipal.webContents.send("emula-cancelar-item-ped")
-  }
-})

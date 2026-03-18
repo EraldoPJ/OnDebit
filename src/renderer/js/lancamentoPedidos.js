@@ -1,4 +1,5 @@
 let controleInclusao = ""
+let controleEdicao = ""
 
 // Seleciona elementos do formulário
 const btnNovo = document.getElementById("btnNovo")
@@ -77,12 +78,12 @@ btnCancelar.addEventListener("click", () => {
   btnExcluirProduto.disabled = true
 })
 
-//Ao clicar em fechar na pesquisa de cliente, emula o clique do botao cancelar.
-window.electronAPI.cancelarCliPed(() => {
+//Mesmo metodo para emular o cancelar na tela de cadastro de clientes, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
+window.electronAPI.cancelarCliente(() => {
   btnCancelar.click()
 })
 
-//Ao clicar em fechar na pesquisa de cliente, emula o clique do botao cancelar.
-window.electronAPI.cancelarItemPedido(() => {
+//Mesmo metodo para emular o cancelar na tela de cadastro de produtos, apenas reutilizado aqui para quando fechar a pesquisa de clientes, emular o botao cancelar nessa tela
+window.electronAPI.cancelarProduto(() => {
   btnCancelar.click()
 })
