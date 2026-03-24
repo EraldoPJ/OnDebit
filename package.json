@@ -26,6 +26,9 @@
   "dependencies": {
     "better-sqlite3": "^12.4.1",
     "cors": "^2.8.6",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "fs": "^0.0.1-security",
+    "ini": "^6.0.0",
+    "pg": "^8.20.0"
   }
 }

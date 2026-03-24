@@ -1,6 +1,3 @@
-Sempre que querer a estrutura do projeto, informar o comando abaixo no console:
-tree -I 'node_modules|.git' > estrutura.txt
-
 .
 ├── assets
 │   ├── icons
@@ -9,38 +6,40 @@ tree -I 'node_modules|.git' > estrutura.txt
 │       ├── 10.jpeg
 │       └── sem_img.jpeg
 ├── backend
-│   └── db.js
+│   ├── db.js
+│   └── server.js
 ├── db
 │   └── Ondebit.db
 ├── estrutura.txt
-├── index.html
+├── frontend
+│   ├── index.html
+│   └── src
+│       └── renderer
+│           ├── css
+│           │   ├── style.css
+│           │   ├── styleClientes.css
+│           │   ├── styleLancamentoPedido.css
+│           │   └── styleProdutos.css
+│           ├── js
+│           │   ├── clientes.js
+│           │   ├── consultas
+│           │   │   ├── consultaClientes.js
+│           │   │   ├── consultaPedidos.js
+│           │   │   └── consultaProdutos.js
+│           │   ├── lancamentoPedidos.js
+│           │   └── produtos.js
+│           └── telas
+│               ├── clientes.html
+│               ├── confereEnvia.html
+│               ├── consultas
+│               │   ├── consultaClientes.html
+│               │   └── consultaProdutos.html
+│               ├── lancamentoPedido.html
+│               └── produtos.html
 ├── main.js
 ├── package-lock.json
 ├── package.json
-├── preload
-│   └── preload.js
-└── src
-    └── renderer
-        ├── css
-        │   ├── style.css
-        │   ├── styleClientes.css
-        │   ├── styleLancamentoPedido.css
-        │   └── styleProdutos.css
-        ├── js
-        │   ├── clientes.js
-        │   ├── consultas
-        │   │   ├── consultaClientes.js
-        │   │   ├── consultaPedidos.js
-        │   │   └── consultaProdutos.js
-        │   ├── lancamentoPedidos.js
-        │   └── produtos.js
-        └── telas
-            ├── clientes.html
-            ├── confereEnvia.html
-            ├── consultas
-            │   ├── consultaClientes.html
-            │   └── consultaProdutos.html
-            ├── lancamentoPedido.html
-            └── produtos.html
+└── preload
+    └── preload.js
 
-14 directories, 27 files
+15 directories, 28 files
