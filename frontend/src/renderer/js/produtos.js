@@ -251,11 +251,11 @@ window.electronAPI.cancelarProduto(() => {
 /* ------------------- Controle da Imagem ------------------- */
 function carregarImgProduto(idProduto) {
   //Acento grave para infomar caminho e parâmetro da função
-  const caminho = `../../../assets/imagesProd/${idProduto}.jpeg`
+  const caminho = `../../../../assets/imagesProd/${idProduto}.jpeg`
 
   //Feito dessa forma para caso obter erro, carregar a imagem padrao
   imgProduto.onerror = () => {
-    imgProduto.src = "../../../assets/imagesProd/sem_img.jpeg"
+    imgProduto.src = "../../../../assets/imagesProd/sem_img.jpeg"
   }
 
   imgProduto.src = caminho
