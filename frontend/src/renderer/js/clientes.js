@@ -115,33 +115,37 @@ btnExcluir.addEventListener("click", async () => {
   controleEdicao = ""
 })
 
-// Evento de clique no botão "Confirmar"
 btnConfirmar.addEventListener("click", async () => {
   if (nome.value === "" || telefone.value === "") {
     alert("Informe no mínimo Nome e Telefone!!")
     return
   } else {
+    // ================= INCLUSÃO =================
     if (controleInclusao === "I") {
       const inclusaoCliente = {
-        situacao: situacao.value, // valor do campo situacao
-        nome: nome.value, // valor do campo nome
-        telefone: telefone.value, // valor do campo telefone
-        email: email.value, // valor do campo email
-        observacao: observacao.value, // valor do campo observação
+        situacao: situacao.value,
+        nome: nome.value,
+        telefone: telefone.value,
+        email: email.value,
+        observacao: observacao.value,
       }
 
-      const resultadoInclusao = await window.electronAPI.incluirCliente(
-        inclusaoCliente
-      )
+      const response = await fetch("http://localhost:3000/clientes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inclusaoCliente),
+      })
 
-      // Se o salvamento foi bem-sucedido:
+      const resultadoInclusao = await response.json()
+
       if (resultadoInclusao.sucesso) {
-        alert(resultadoInclusao.mensagem) // Mostra mensagem de sucesso
+        alert(resultadoInclusao.mensagem)
       } else {
-        alert(resultadoInclusao.mensagem) // Mostra mensagem de erro (vinda do main.js)
+        alert(resultadoInclusao.mensagem)
       }
 
-      //Limpa os campos
       id.value = ""
       situacao.value = "A"
       nome.value = ""
@@ -149,34 +153,43 @@ btnConfirmar.addEventListener("click", async () => {
       email.value = ""
       observacao.value = ""
 
-      //Controle de botoes
       btnNovo.disabled = false
       btnEditar.disabled = true
       btnConfirmar.disabled = true
       btnCancelar.disabled = true
       btnPesquisar.disabled = false
-    } else if (controleEdicao === "E") {
+    }
+
+    // ================= EDIÇÃO =================
+    else if (controleEdicao === "E") {
       const edicaoCliente = {
-        id: id.value, // passa o id para update
+        id: id.value,
         situacao: situacao.value,
-        nome: nome.value, // valor do campo nome
-        telefone: telefone.value, // valor do campo telefone
-        email: email.value, // valor do campo email
-        observacao: observacao.value, // valor do campo observação
+        nome: nome.value,
+        telefone: telefone.value,
+        email: email.value,
+        observacao: observacao.value,
       }
 
-      const resultadoEdicao = await window.electronAPI.editarCliente(
-        edicaoCliente
+      const response = await fetch(
+        `http://localhost:3000/clientes/${edicaoCliente.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(edicaoCliente),
+        },
       )
 
-      // Se a edicao foi bem-sucedida:
+      const resultadoEdicao = await response.json()
+
       if (resultadoEdicao.sucesso) {
-        alert(resultadoEdicao.mensagem) // Mostra mensagem de sucesso
+        alert(resultadoEdicao.mensagem)
       } else {
-        alert(resultadoEdicao.mensagem) // Mostra mensagem de erro (vinda do main.js)
+        alert(resultadoEdicao.mensagem)
       }
 
-      //Controle de botoes
       btnNovo.disabled = true
       btnEditar.disabled = false
       btnExcluir.disabled = false
@@ -185,7 +198,6 @@ btnConfirmar.addEventListener("click", async () => {
       btnPesquisar.disabled = false
     }
 
-    //Desabilita inputs
     situacao.disabled = true
     nome.disabled = true
     telefone.disabled = true
