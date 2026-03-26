@@ -53,7 +53,7 @@ btnEditar.addEventListener("click", async () => {
   nome.focus()
 })
 
-// Evento de clique no botão "Excluir"
+// ================= EXCLUSÃO =================
 btnExcluir.addEventListener("click", async () => {
   if (id.value === "") {
     alert("Nenhum cliente carregado em tela!!!")
@@ -61,7 +61,7 @@ btnExcluir.addEventListener("click", async () => {
     alert("Cliente inativo. Impossível excluir!")
   } else {
     const desejaExcluir = confirm(
-      "Deseja excluir o cliente ID: " + id.value + "?"
+      "Deseja excluir o cliente ID: " + id.value + "?",
     )
 
     if (desejaExcluir) {
@@ -73,15 +73,23 @@ btnExcluir.addEventListener("click", async () => {
         observacao: observacao.value, // valor do campo observação
       }
 
-      const resultadoExcluirCliente = await window.electronAPI.excluirCliente(
-        excluirCliente
+      const response = await fetch(
+        `http://localhost:3000/clientes${excluirCliente.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(excluirCliente),
+        },
       )
 
-      // Se o delete foi bem-sucedido:
-      if (resultadoExcluirCliente.sucesso) {
-        alert(resultadoExcluirCliente.mensagem) // Mostra mensagem de sucesso
+      const resultadoInclusao = await response.json()
+
+      if (resultadoInclusao.sucesso) {
+        alert(resultadoInclusao.mensagem)
       } else {
-        alert(resultadoExcluirCliente.mensagem) // Mostra mensagem de erro (vinda do main.js)
+        alert(resultadoInclusao.mensagem)
       }
 
       //Desabilita inputs
@@ -115,12 +123,12 @@ btnExcluir.addEventListener("click", async () => {
   controleEdicao = ""
 })
 
+// ================= INCLUSÃO =================
 btnConfirmar.addEventListener("click", async () => {
   if (nome.value === "" || telefone.value === "") {
     alert("Informe no mínimo Nome e Telefone!!")
     return
   } else {
-    // ================= INCLUSÃO =================
     if (controleInclusao === "I") {
       const inclusaoCliente = {
         situacao: situacao.value,
