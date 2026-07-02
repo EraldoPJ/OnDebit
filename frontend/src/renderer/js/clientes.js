@@ -1,4 +1,6 @@
-// Seleciona elementos do formulário
+let controleInclusao = ""
+let controleEdicao = ""
+
 const btnNovo = document.getElementById("btnNovo")
 const btnEditar = document.getElementById("btnEditar")
 const btnExcluir = document.getElementById("btnExcluir")
@@ -13,7 +15,30 @@ const telefone = document.getElementById("telefone")
 const email = document.getElementById("email")
 const observacao = document.getElementById("observacao")
 
-// Evento de clique no botão "Novo"
+function preencherCliente(cliente) {
+  id.value = cliente.id_cli
+  situacao.value = cliente.sit_cli
+  nome.value = cliente.nome_cli
+  telefone.value = cliente.telefone_cli
+  email.value = cliente.email_cli
+  observacao.value = cliente.obs_cli || ""
+
+  situacao.disabled = true
+  nome.disabled = true
+  telefone.disabled = true
+  email.disabled = true
+  observacao.disabled = true
+
+  btnNovo.disabled = true
+  btnEditar.disabled = false
+  btnExcluir.disabled = false
+  btnConfirmar.disabled = true
+  btnCancelar.disabled = false
+  btnPesquisar.disabled = false
+}
+
+carregarClienteSelecionado(preencherCliente)
+
 btnNovo.addEventListener("click", () => {
   controleInclusao = "I"
 
@@ -27,13 +52,12 @@ btnNovo.addEventListener("click", () => {
   btnEditar.disabled = true
   btnConfirmar.disabled = false
   btnCancelar.disabled = false
+  btnPesquisar.disabled = true
 
-  // (opcional) Coloca o foco automaticamente no campo nome
   nome.focus()
 })
 
-// Evento de clique no botão "Editar"
-btnEditar.addEventListener("click", async () => {
+btnEditar.addEventListener("click", () => {
   controleEdicao = "E"
 
   situacao.disabled = false
@@ -49,11 +73,9 @@ btnEditar.addEventListener("click", async () => {
   btnCancelar.disabled = false
   btnPesquisar.disabled = true
 
-  // (opcional) Coloca o foco automaticamente no campo nome
   nome.focus()
 })
 
-// ================= EXCLUSÃO =================
 btnExcluir.addEventListener("click", async () => {
   if (id.value === "") {
     alert("Nenhum cliente carregado em tela!!!")
@@ -65,55 +87,31 @@ btnExcluir.addEventListener("click", async () => {
     )
 
     if (desejaExcluir) {
-      const excluirCliente = {
-        id: id.value, //valor do campo ID
-        nome: nome.value, // valor do campo nome
-        telefone: telefone.value, // valor do campo telefone
-        email: email.value, // valor do campo email
-        observacao: observacao.value, // valor do campo observação
+      const resultado = await excluirCliente(id.value)
+
+      alert(resultado.mensagem)
+
+      if (resultado.sucesso) {
+        situacao.disabled = true
+        nome.disabled = true
+        telefone.disabled = true
+        email.disabled = true
+        observacao.disabled = true
+
+        id.value = ""
+        situacao.value = "A"
+        nome.value = ""
+        telefone.value = ""
+        email.value = ""
+        observacao.value = ""
+
+        btnNovo.disabled = false
+        btnEditar.disabled = true
+        btnExcluir.disabled = true
+        btnConfirmar.disabled = true
+        btnCancelar.disabled = true
+        btnPesquisar.disabled = false
       }
-
-      const response = await fetch(
-        `http://localhost:3000/clientes${excluirCliente.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(excluirCliente),
-        },
-      )
-
-      const resultadoInclusao = await response.json()
-
-      if (resultadoInclusao.sucesso) {
-        alert(resultadoInclusao.mensagem)
-      } else {
-        alert(resultadoInclusao.mensagem)
-      }
-
-      //Desabilita inputs
-      situacao.disabled = true
-      nome.disabled = true
-      telefone.disabled = true
-      email.disabled = true
-      observacao.disabled = true
-
-      //Limpa os campos
-      id.value = ""
-      situacao.value = "A"
-      nome.value = ""
-      telefone.value = ""
-      email.value = ""
-      observacao.value = ""
-
-      //Controle de botoes
-      btnNovo.disabled = false
-      btnEditar.disabled = true
-      btnExcluir.disabled = true
-      btnConfirmar.disabled = true
-      btnCancelar.disabled = true
-      btnPesquisar.disabled = false
     } else {
       return
     }
@@ -123,37 +121,25 @@ btnExcluir.addEventListener("click", async () => {
   controleEdicao = ""
 })
 
-// ================= INCLUSÃO =================
 btnConfirmar.addEventListener("click", async () => {
   if (nome.value === "" || telefone.value === "") {
     alert("Informe no mínimo Nome e Telefone!!")
     return
-  } else {
-    if (controleInclusao === "I") {
-      const inclusaoCliente = {
-        situacao: situacao.value,
-        nome: nome.value,
-        telefone: telefone.value,
-        email: email.value,
-        observacao: observacao.value,
-      }
+  }
 
-      const response = await fetch("http://localhost:3000/clientes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inclusaoCliente),
-      })
+  const dadosCliente = {
+    situacao: situacao.value,
+    nome: nome.value,
+    telefone: telefone.value,
+    email: email.value,
+    observacao: observacao.value,
+  }
 
-      const resultadoInclusao = await response.json()
+  if (controleInclusao === "I") {
+    const resultado = await incluirCliente(dadosCliente)
+    alert(resultado.mensagem)
 
-      if (resultadoInclusao.sucesso) {
-        alert(resultadoInclusao.mensagem)
-      } else {
-        alert(resultadoInclusao.mensagem)
-      }
-
+    if (resultado.sucesso) {
       id.value = ""
       situacao.value = "A"
       nome.value = ""
@@ -167,37 +153,11 @@ btnConfirmar.addEventListener("click", async () => {
       btnCancelar.disabled = true
       btnPesquisar.disabled = false
     }
+  } else if (controleEdicao === "E") {
+    const resultado = await editarCliente(id.value, dadosCliente)
+    alert(resultado.mensagem)
 
-    // ================= EDIÇÃO =================
-    else if (controleEdicao === "E") {
-      const edicaoCliente = {
-        id: id.value,
-        situacao: situacao.value,
-        nome: nome.value,
-        telefone: telefone.value,
-        email: email.value,
-        observacao: observacao.value,
-      }
-
-      const response = await fetch(
-        `http://localhost:3000/clientes/${edicaoCliente.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(edicaoCliente),
-        },
-      )
-
-      const resultadoEdicao = await response.json()
-
-      if (resultadoEdicao.sucesso) {
-        alert(resultadoEdicao.mensagem)
-      } else {
-        alert(resultadoEdicao.mensagem)
-      }
-
+    if (resultado.sucesso) {
       btnNovo.disabled = true
       btnEditar.disabled = false
       btnExcluir.disabled = false
@@ -205,19 +165,18 @@ btnConfirmar.addEventListener("click", async () => {
       btnCancelar.disabled = true
       btnPesquisar.disabled = false
     }
-
-    situacao.disabled = true
-    nome.disabled = true
-    telefone.disabled = true
-    email.disabled = true
-    observacao.disabled = true
-
-    controleInclusao = ""
-    controleEdicao = ""
   }
+
+  situacao.disabled = true
+  nome.disabled = true
+  telefone.disabled = true
+  email.disabled = true
+  observacao.disabled = true
+
+  controleInclusao = ""
+  controleEdicao = ""
 })
 
-// Evento de clique no botão "Cancelar"
 btnCancelar.addEventListener("click", () => {
   situacao.disabled = true
   nome.disabled = true
@@ -225,7 +184,6 @@ btnCancelar.addEventListener("click", () => {
   email.disabled = true
   observacao.disabled = true
 
-  // limpa os campos
   id.value = ""
   situacao.value = "A"
   nome.value = ""
@@ -244,34 +202,8 @@ btnCancelar.addEventListener("click", () => {
   controleEdicao = ""
 })
 
-//Evento de clique do botao pesquisar
 btnPesquisar.addEventListener("click", () => {
-  window.electronAPI.abrirConsultaClientes()
-
-  btnNovo.disabled = true
-  btnEditar.disabled = false
-  btnExcluir.disabled = false
-  btnConfirmar.disabled = true
-  btnCancelar.disabled = false
-
+  abrirConsultaClientes("/src/renderer/telas/clientes.html")
   controleInclusao = ""
   controleEdicao = ""
-})
-
-/* ------------------- RECEBER CLIENTE SELECIONADO ------------------- */
-
-// Quando o usuário der duplo clique na tela de consulta,
-// o cliente é enviado pra cá e preenche os campos:
-window.electronAPI.clienteSelecionado((cliente) => {
-  id.value = cliente.id_cli
-  situacao.value = cliente.sit_cli
-  nome.value = cliente.nome_cli
-  telefone.value = cliente.telefone_cli
-  email.value = cliente.email_cli
-  observacao.value = cliente.obs_cli || ""
-})
-
-//Ao clicar em fechar, emula o clique do botao cancelar.
-window.electronAPI.cancelarCliente(() => {
-  btnCancelar.click()
 })

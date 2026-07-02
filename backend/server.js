@@ -3,17 +3,49 @@ const cors = require("cors")
 
 const db = require("./db")
 
+const path = require("path")
+
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static(path.join(__dirname, "../frontend")))
+app.use("/assets", express.static(path.join(__dirname, "../assets")))
 
-app.get("/", (req, res) => {
-  res.send("API Ondebit rodando 🚀")
-})
+//---------------------------------------------- BUSCA DE CLIENTES ----------------------------------------------//
+app.get("/clientes", async (req, res) => {
+  try {
+    const { id, situacao, nome, telefone } = req.query
 
-app.listen(3000, () => {
-  console.log("Servidor rodando em http://localhost:3000")
+    let query = "SELECT * FROM clientes WHERE 1=1"
+    const params = []
+
+    if (id && id.trim() !== "") {
+      params.push(`%${id.trim()}%`)
+      query += ` AND id_cli::text LIKE $${params.length}`
+    }
+
+    if (situacao && (situacao === "A" || situacao === "I")) {
+      params.push(situacao)
+      query += ` AND sit_cli = $${params.length}`
+    }
+
+    if (nome && nome.trim() !== "") {
+      params.push(`%${nome.trim()}%`)
+      query += ` AND nome_cli ILIKE $${params.length}`
+    }
+
+    if (telefone && telefone.trim() !== "") {
+      params.push(`%${telefone.trim()}%`)
+      query += ` AND telefone_cli LIKE $${params.length}`
+    }
+
+    const resultado = await db.query(query, params)
+    res.json(resultado.rows)
+  } catch (erro) {
+    console.error("Erro ao buscar clientes:", erro)
+    res.json([])
+  }
 })
 
 //---------------------------------------------- INCLUSAO NO BANCO DE DADOS ----------------------------------------------//
@@ -90,3 +122,25 @@ app.put("/clientes/:id", async (req, res) => {
   }
 })
 
+//---------------------------------------------- EXCLUSAO NO BANCO DE DADOS ----------------------------------------------//
+app.delete("/clientes/:id", async (req, res) => {
+  try {
+    await db.query("DELETE FROM clientes WHERE id_cli = $1", [req.params.id])
+
+    res.json({
+      sucesso: true,
+      mensagem: `Cliente ID: ${req.params.id} excluído com sucesso!`,
+    })
+  } catch (erro) {
+    console.error("Erro ao excluir cliente:", erro)
+
+    res.json({
+      sucesso: false,
+      mensagem: "Erro ao excluir cliente.",
+    })
+  }
+})
+
+app.listen(3000, () => {
+  console.log("Servidor rodando em http://localhost:3000")
+})
